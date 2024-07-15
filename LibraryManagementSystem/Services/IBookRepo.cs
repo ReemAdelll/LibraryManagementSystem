@@ -1,13 +1,12 @@
 ﻿using LibraryManagementSystem.Models;
+using LibraryManagementSystem.Repositories;
 
 namespace LibraryManagementSystem.Services
 {
-	public interface IBookRepo
+	public interface IBookRepo: IBaseRepo<Book>
 	{
-		Task<IEnumerable<Book>> GetAllBooksAsync();
-		Task<Book> GetBookByIdAsync(int id);
-		Task<Book> CreateBookAsync(Book book);
-		Task<Book> UpdateBookAsync(Book book);
-		Task DeleteBookAsync(int id);
+
+		// spesific operations for book service
+		
 	}
 }

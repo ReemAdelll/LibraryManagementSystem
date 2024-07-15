@@ -1,31 +1,53 @@
-﻿using LibraryManagementSystem.Models;
-using static LibraryManagementSystem.Repositories.IGenericRepo;
+﻿using LibraryManagementSystem.DataBaseConnection;
+using LibraryManagementSystem.Models;
+using LibraryManagementSystem.Services;
+
 
 namespace LibraryManagementSystem.Repositories
 {
 	public class UnitOfWork : IUnitOfWork
 	{
 		private readonly LibraryContext _context;
-		private IGenericRepo<Author> _authors;
-		private IGenericRepo<Book> _books;
+		private IAuthorRepo _authorRepo;
+		private IBookRepo _bookRepo;
 
 		public UnitOfWork(LibraryContext context)
 		{
 			_context = context;
 		}
 
-		public IGenericRepo<Author> Authors => _authors ??= new GenericRepo<Author>(_context);
-		public IGenericRepo<Book> Books => _books ??= new GenericRepo<Book>(_context);
-
-
-		public Task<int> CommitAsync()
+		public IAuthorRepo AuthorRepo
 		{
-			throw new NotImplementedException();
+			get
+			{
+				if (_authorRepo == null)
+				{
+					_authorRepo = new AuthorRepo(_context);
+				}
+				return _authorRepo;
+			}
+		}
+
+		public IBookRepo BookService
+		{
+			get
+			{
+				if (_bookRepo == null)
+				{
+					_bookRepo = new BookRepo(_context);
+				}
+				return _bookRepo;
+			}
+		}
+
+		public async Task<int> CompleteAsync()
+		{
+			return await _context.SaveChangesAsync();
 		}
 
 		public void Dispose()
 		{
-			throw new NotImplementedException();
+			_context.Dispose();
 		}
 	}
 }

@@ -1,31 +1,56 @@
-﻿using LibraryManagementSystem.Models;
+﻿using LibraryManagementSystem.DataBaseConnection;
+using LibraryManagementSystem.Models;
+using LibraryManagementSystem.Repositories;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace LibraryManagementSystem.Services
 {
 	public class BookRepo : IBookRepo
 	{
-		public Task<Book> GetBookByIdAsync(int id)
+		private readonly LibraryContext _context;
+
+		public BookRepo(LibraryContext context)
 		{
-			throw new NotImplementedException();
-		}
-		public Task<IEnumerable<Book>> GetAllBooksAsync()
-		{
-			throw new NotImplementedException();
-		}
-		public Task<Book> CreateBookAsync(Book book)
-		{
-			throw new NotImplementedException();
-		}
-		public Task<Book> UpdateBookAsync(Book book)
-		{
-			throw new NotImplementedException();
+			_context = context;
 		}
 
-		public Task DeleteBookAsync(int id)
+		public async Task<IEnumerable<Book>> GetAllAsync()
 		{
-			throw new NotImplementedException();
+			return await _context.Books.ToListAsync();
 		}
 
+		public async Task<Book> GetByIdAsync(int id)
+		{
+			return await _context.Books.FindAsync(id);
+		}
 		
+
+		public async Task<Book> AddAsync(Book book)
+		{
+			_context.Books.Add(book);
+			await _context.SaveChangesAsync();
+			return book;
+		}
+
+		public async Task<Book> UpdateAsync(Book book)
+		{
+			_context.Entry(book).State = EntityState.Modified;
+			await _context.SaveChangesAsync();
+			return book;
+		}
+
+		public async Task<bool> DeleteAsync(int id)
+		{
+			var book = await _context.Books.FindAsync(id);
+			if (book == null) return false;
+
+			_context.Books.Remove(book);
+			await _context.SaveChangesAsync();
+			return true;
+		}
+
 	}
 }

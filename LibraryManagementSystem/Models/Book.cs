@@ -4,13 +4,11 @@ namespace LibraryManagementSystem.Models
 {
 	public class Book
 	{
-		[Key]
         public int Book_Id { get; set; }
-
-		[Required]
-		[MaxLength(50)]
 		public string Title { get; set; }
+		public int PublishedYear { get; set; }
 		public int Author_Id { get; set; }
+		//Navigation Property
 		public Author Author { get; set; }
 	}
 }

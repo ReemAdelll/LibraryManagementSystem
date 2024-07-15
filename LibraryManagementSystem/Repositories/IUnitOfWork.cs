@@ -1,12 +1,14 @@
 ﻿using LibraryManagementSystem.Models;
-using static LibraryManagementSystem.Repositories.IGenericRepo;
+using LibraryManagementSystem.Services;
+
 
 namespace LibraryManagementSystem.Repositories
 {
 	public interface IUnitOfWork:IDisposable
 	{
-		IGenericRepo<Author> Authors { get; }
-		IGenericRepo<Book> Books { get; }
-		Task<int> CommitAsync();
+		IAuthorRepo AuthorRepo { get; }
+		IBookRepo BookService { get; }
+		Task<int> CompleteAsync();
+
 	}
 }

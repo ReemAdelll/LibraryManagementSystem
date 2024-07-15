@@ -4,12 +4,12 @@ namespace LibraryManagementSystem.Models
 {
 	public class Author
 	{
-		[Key]
         public int Author_Id { get; set; }
-
-		[Required]
-		[StringLength(30, MinimumLength = 3)]
 		public string Name { get; set;}
+		public string Bio { get; set; }
+		public string Country { get; set; }
+
+		//Navigation Property
 		public ICollection<Book> Books { get; set; }
 	}
 }
