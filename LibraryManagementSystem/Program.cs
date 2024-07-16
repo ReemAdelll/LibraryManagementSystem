@@ -3,6 +3,7 @@ using LibraryManagementSystem.DataBaseConnection;
 using LibraryManagementSystem.Models;
 using LibraryManagementSystem.Repositories;
 using LibraryManagementSystem.Services;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
@@ -16,7 +17,7 @@ namespace LibraryManagementSystem
 		public static void Main(string[] args)
 		{
 
-				var builder = WebApplication.CreateBuilder(args);
+			var builder = WebApplication.CreateBuilder(args);
 
 			// Add services to the container.
 

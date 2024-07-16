@@ -9,60 +9,71 @@ namespace LibraryManagementSystem.Controllers
 	[ApiController]
 	public class AuthorController : Controller
 	{
-		private IUnitOfWork _unitOfWork;
-		private IAuthorRepo _authorRepo;
+		private readonly IUnitOfWork _unitOfWork;
 
-		public AuthorController(IUnitOfWork unitOfWork, IAuthorRepo authorRepo)
+		public AuthorController(IUnitOfWork unitOfWork)
 		{
 			_unitOfWork = unitOfWork;
-			_authorRepo = authorRepo;
 		}
 		//working
 		[HttpGet]
-		public async Task<ActionResult<IEnumerable<Author>>> GetAuthors()
+		public async Task<IActionResult> GetAllAuthors()
 		{
-			var authors = await _authorRepo.GetAllAsync();
+			var authors = await _unitOfWork.Authors.GetAllAsync();
 			return Ok(authors);
 		}
 		//working
 		[HttpGet("{id}")]
-		public async Task<ActionResult<Author>> GetAuthor(int id)
+		public async Task<IActionResult> GetAuthorById(int id)
 		{
-			var author = await _authorRepo.GetByIdAsync(id);
+			var author = await _unitOfWork.Authors.GetByIdAsync(id);
 			if (author == null) return NotFound();
 			return Ok(author);
 		}
-		//error
-		[HttpPost]
-		public async Task<ActionResult<Author>> PostAuthor(Author author)
-		{
-			var createdAuthor = await _authorRepo.AddAsync(author);
-			await _unitOfWork.CompleteAsync();
-			return CreatedAtAction("GetAuthor", new { id = createdAuthor.Author_Id }, createdAuthor);
-		}
-		//error
+		//working
 		[HttpPut("{id}")]
-		public async Task<IActionResult> PutAuthor(int id, Author author)
+		public async Task<IActionResult> UpdateAuthor(int id, [FromBody] AuthorDTO authorDto)
 		{
-			if (id != author.Author_Id) return BadRequest();
-			await _authorRepo.UpdateAsync(author);
+			if (!ModelState.IsValid)
+				return BadRequest(ModelState);
+
+			var existingAuthor = await _unitOfWork.Authors.GetByIdAsync(id);
+			if (existingAuthor == null) return NotFound();
+
+			authorDto.Author_Id = id;
+			await _unitOfWork.Authors.UpdateAsync(authorDto);
 			await _unitOfWork.CompleteAsync();
+
 			return NoContent();
+		}
+		//working
+		[HttpPost]
+		public async Task<IActionResult> CreateAuthor([FromBody] AuthorDTO authorDto)
+		{
+			if (!ModelState.IsValid)
+				return BadRequest(ModelState);
+
+			var author = await _unitOfWork.Authors.AddAsync(authorDto);
+			await _unitOfWork.CompleteAsync();
+
+			return CreatedAtAction(nameof(GetAuthorById), new { id = author.Author_Id }, author);
 		}
 		//working
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteAuthor(int id)
 		{
-			var result = await _authorRepo.DeleteAsync(id);
-			if (!result) return NotFound();
+			var success = await _unitOfWork.Authors.DeleteAsync(id);
+			if (!success) return NotFound();
+
 			await _unitOfWork.CompleteAsync();
 			return NoContent();
 		}
+
 		//working
-		[HttpGet("authors-with-books")]
-		public async Task<ActionResult<IEnumerable<Author>>> GetAllAuthorsWithBooks()
+		[HttpGet("authors")]
+		public async Task<IActionResult> GetAllAuthorsWithBooks()
 		{
-			var authors = await _authorRepo.GetAllAuthorsWithBooksAsync();
+			var authors = await _unitOfWork.Authors.GetAllAuthorsWithBooksAsync();
 			return Ok(authors);
 		}
 	}

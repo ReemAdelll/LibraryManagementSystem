@@ -9,56 +9,65 @@ namespace LibraryManagementSystem.Controllers
 	[ApiController]
 	public class BookController : Controller
 	{
-		private IUnitOfWork _unitOfWork;
-		private  IBookRepo _bookRepo;
+		private readonly IUnitOfWork _unitOfWork;
 
-		public BookController(IUnitOfWork unitOfWork, IBookRepo bookRepo)
+		public BookController(IUnitOfWork unitOfWork)
 		{
 			_unitOfWork = unitOfWork;
-			_bookRepo = bookRepo;
 		}
 		//working
 		[HttpGet]
-		public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
+		public async Task<IActionResult> GetAllBooks()
 		{
-			var books = await _bookRepo.GetAllAsync();
+			var books = await _unitOfWork.Books.GetAllAsync();
 			return Ok(books);
 		}
 		//working
 		[HttpGet("{id}")]
-		public async Task<ActionResult<Book>> GetBook(int id)
+		public async Task<IActionResult> GetBookById(int id)
 		{
-			var book = await _bookRepo.GetByIdAsync(id);
+			var book = await _unitOfWork.Books.GetByIdAsync(id);
 			if (book == null) return NotFound();
 			return Ok(book);
 		}
-
+		//working
 		[HttpPost]
-		public async Task<ActionResult<Book>> PostBook(Book book)
+		public async Task<IActionResult> CreateBook([FromBody] BookDTO bookDto)
 		{
-			var createdBook = await _bookRepo.AddAsync(book);
-			await _unitOfWork.CompleteAsync();
-			return CreatedAtAction("GetBook", new { id = createdBook.Book_Id }, createdBook);
-		}
+			if (!ModelState.IsValid)
+				return BadRequest(ModelState);
 
-		[HttpPut("{id}")]
-		public async Task<IActionResult> PutBook(int id, Book book)
-		{
-			if (id != book.Book_Id) return BadRequest();
-			await _bookRepo.UpdateAsync(book);
+			var book = await _unitOfWork.Books.AddAsync(bookDto);
 			await _unitOfWork.CompleteAsync();
+
+			return CreatedAtAction(nameof(GetBookById), new { id = book.Book_Id }, book);
+		}
+		//working
+		[HttpPut("{id}")]
+		public async Task<IActionResult> UpdateBook(int id, [FromBody] BookDTO bookDto)
+		{
+			if (!ModelState.IsValid)
+				return BadRequest(ModelState);
+
+			var existingBook = await _unitOfWork.Books.GetByIdAsync(id);
+			if (existingBook == null) return NotFound();
+
+			bookDto.Book_Id = id;
+			await _unitOfWork.Books.UpdateAsync(bookDto);
+			await _unitOfWork.CompleteAsync();
+
 			return NoContent();
 		}
 		//working
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteBook(int id)
 		{
-			var result = await _bookRepo.DeleteAsync(id);
-			if (!result) return NotFound();
+			var success = await _unitOfWork.Books.DeleteAsync(id);
+			if (!success) return NotFound();
+
 			await _unitOfWork.CompleteAsync();
 			return NoContent();
 		}
 
-		
 	}
 }

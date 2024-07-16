@@ -8,38 +8,16 @@ namespace LibraryManagementSystem.Repositories
 	public class UnitOfWork : IUnitOfWork
 	{
 		private readonly LibraryContext _context;
-		private IAuthorRepo _authorRepo;
-		private IBookRepo _bookRepo;
-
-		public UnitOfWork(LibraryContext context)
+		private readonly IBookRepo _bookRepo;
+		private readonly IAuthorRepo _authorRepo;
+		public UnitOfWork(LibraryContext context, IBookRepo bookRepo, IAuthorRepo authorRepo)
 		{
 			_context = context;
+			_bookRepo = bookRepo;
+			_authorRepo = authorRepo;
 		}
-
-		public IAuthorRepo AuthorRepo
-		{
-			get
-			{
-				if (_authorRepo == null)
-				{
-					_authorRepo = new AuthorRepo(_context);
-				}
-				return _authorRepo;
-			}
-		}
-
-		public IBookRepo BookService
-		{
-			get
-			{
-				if (_bookRepo == null)
-				{
-					_bookRepo = new BookRepo(_context);
-				}
-				return _bookRepo;
-			}
-		}
-
+		public IBookRepo Books => _bookRepo;
+		public IAuthorRepo Authors => _authorRepo;
 		public async Task<int> CompleteAsync()
 		{
 			return await _context.SaveChangesAsync();
@@ -49,5 +27,7 @@ namespace LibraryManagementSystem.Repositories
 		{
 			_context.Dispose();
 		}
+
+		//was an error (implement interface)
 	}
 }

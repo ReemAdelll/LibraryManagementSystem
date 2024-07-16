@@ -6,8 +6,8 @@ namespace LibraryManagementSystem.Repositories
 {
 	public interface IUnitOfWork:IDisposable
 	{
-		IAuthorRepo AuthorRepo { get; }
-		IBookRepo BookService { get; }
+		IAuthorRepo Authors { get; }
+		IBookRepo Books { get; }
 		Task<int> CompleteAsync();
 
 	}

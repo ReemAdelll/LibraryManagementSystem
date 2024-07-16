@@ -17,36 +17,44 @@ namespace LibraryManagementSystem.Services
 			_context = context;
 		}
 
-		public async Task<IEnumerable<Book>> GetAllAsync()
+		public async Task<IEnumerable<BookDTO>> GetAllAsync()
 		{
-			return await _context.Books.ToListAsync();
+			var books = await _context.Books.ToListAsync();
+			return books.Select(b => new BookDTO { Book_Id = b.Book_Id, Title = b.Title });
 		}
 
-		public async Task<Book> GetByIdAsync(int id)
+		public async Task<BookDTO> GetByIdAsync(int id)
 		{
-			return await _context.Books.FindAsync(id);
+			var book = await _context.Books.FindAsync(id);
+			if (book == null) return null;
+			return new BookDTO { Book_Id = book.Book_Id, Title = book.Title, Author_Id=book.Author_Id , PublishedYear= book.PublishedYear};
 		}
-		
 
-		public async Task<Book> AddAsync(Book book)
+
+		public async Task<BookDTO> AddAsync(BookDTO bookDto)
 		{
+			var book = new Book { Title = bookDto.Title, Author_Id = bookDto.Author_Id, PublishedYear=bookDto.PublishedYear };
 			_context.Books.Add(book);
 			await _context.SaveChangesAsync();
-			return book;
+			bookDto.Book_Id = book.Book_Id;
+			return bookDto;
 		}
 
-		public async Task<Book> UpdateAsync(Book book)
+		public async Task<BookDTO> UpdateAsync(BookDTO bookDto)
 		{
-			_context.Entry(book).State = EntityState.Modified;
+			var book = await _context.Books.FindAsync(bookDto.Book_Id);
+			if (book == null) return null;
+			book.Title = bookDto.Title;
+			book.PublishedYear = bookDto.PublishedYear;
+			_context.Books.Update(book);
 			await _context.SaveChangesAsync();
-			return book;
+			return bookDto;
 		}
 
 		public async Task<bool> DeleteAsync(int id)
 		{
 			var book = await _context.Books.FindAsync(id);
 			if (book == null) return false;
-
 			_context.Books.Remove(book);
 			await _context.SaveChangesAsync();
 			return true;

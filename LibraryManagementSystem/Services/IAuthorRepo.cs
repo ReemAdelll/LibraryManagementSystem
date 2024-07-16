@@ -3,9 +3,10 @@ using LibraryManagementSystem.Repositories;
 
 namespace LibraryManagementSystem.Services
 {
-	public interface IAuthorRepo : IBaseRepo<Author>
+	public interface IAuthorRepo : IBaseRepo<AuthorDTO>
 	{
-		//specific operations for BookService
-		Task<IEnumerable<Author>> GetAllAuthorsWithBooksAsync();
+		//specific operations for Author
+		Task<IEnumerable<AuthorDTO>> GetAllAuthorsWithBooksAsync();
+		
 	}
 }

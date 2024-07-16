@@ -21,7 +21,7 @@ namespace LibraryManagementSystem.DataBaseConnection
 			{
 				entity.HasKey(e => e.Author_Id);
 				entity.Property(e => e.Name).IsRequired().HasMaxLength(100);
-				entity.Property(e => e.Bio).HasMaxLength(1000);
+				entity.Property(e => e.Bio).HasMaxLength(1000).IsRequired(false);
 				entity.Property(e => e.Country).HasMaxLength(50);
 				entity.HasMany(e => e.Books).WithOne(b => b.Author).HasForeignKey(b => b.Author_Id);
 			});
