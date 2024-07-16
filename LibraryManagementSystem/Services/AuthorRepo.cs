@@ -17,12 +17,22 @@ namespace LibraryManagementSystem.Services
 			_context = context;
 		}
 
-		public async Task<IEnumerable<AuthorDTO>> GetAllAsync()
+		//public async Task<IEnumerable<AuthorDTO>> GetAllAsync()
+		//{
+		//	var authors = await _context.Authors.ToListAsync();
+		//	return authors.Select(a => new AuthorDTO { Author_Id = a.Author_Id, Name = a.Name ,Country=a.Country});
+		//}
+		public IQueryable<AuthorDTO> GetAll()
 		{
-			var authors = await _context.Authors.ToListAsync();
-			return authors.Select(a => new AuthorDTO { Author_Id = a.Author_Id, Name = a.Name ,Country=a.Country});
+			return _context.Authors
+				.Select(a => new AuthorDTO
+				{
+					Author_Id = a.Author_Id,
+					Name = a.Name,
+					Country = a.Country
+					// Map other properties as needed
+				});
 		}
-
 		public async Task<AuthorDTO> GetByIdAsync(int id)
 		{
 			var author = await _context.Authors.FindAsync(id);

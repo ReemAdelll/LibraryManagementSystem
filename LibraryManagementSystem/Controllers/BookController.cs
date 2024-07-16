@@ -16,11 +16,16 @@ namespace LibraryManagementSystem.Controllers
 			_unitOfWork = unitOfWork;
 		}
 		//working
+		//[HttpGet]
+		//public async Task<IActionResult> GetAllBooks()
+		//{
+		//	var books = await _unitOfWork.Books.GetAllAsync();
+		//	return Ok(books);
+		//}
 		[HttpGet]
-		public async Task<IActionResult> GetAllBooks()
+		public IQueryable<BookDTO> GetAll()
 		{
-			var books = await _unitOfWork.Books.GetAllAsync();
-			return Ok(books);
+			return _unitOfWork.Books.GetAll();
 		}
 		//working
 		[HttpGet("{id}")]

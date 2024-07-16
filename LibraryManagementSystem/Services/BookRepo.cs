@@ -17,10 +17,18 @@ namespace LibraryManagementSystem.Services
 			_context = context;
 		}
 
-		public async Task<IEnumerable<BookDTO>> GetAllAsync()
+		//public async Task<IEnumerable<BookDTO>> GetAllAsync()
+		//{
+		//	var books = await _context.Books.ToListAsync();
+		//	return books.Select(b => new BookDTO { Book_Id = b.Book_Id, Title = b.Title });
+		//}
+		public IQueryable<BookDTO> GetAll()
 		{
-			var books = await _context.Books.ToListAsync();
-			return books.Select(b => new BookDTO { Book_Id = b.Book_Id, Title = b.Title });
+			return _context.Books.Select(b => new BookDTO
+			{
+				Book_Id = b.Book_Id,
+				Title = b.Title,
+			}); ;
 		}
 
 		public async Task<BookDTO> GetByIdAsync(int id)
