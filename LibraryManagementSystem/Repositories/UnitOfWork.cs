@@ -28,6 +28,5 @@ namespace LibraryManagementSystem.Repositories
 			_context.Dispose();
 		}
 
-		//was an error (implement interface)
 	}
 }

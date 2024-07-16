@@ -23,6 +23,7 @@ namespace LibraryManagementSystem.Controllers
 		//	return Ok(authors);
 		//}
 
+		//working
 		[HttpGet]
 		public IQueryable<AuthorDTO> GetAll()
 		{

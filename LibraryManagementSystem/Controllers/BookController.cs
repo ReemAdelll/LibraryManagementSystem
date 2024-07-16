@@ -22,6 +22,8 @@ namespace LibraryManagementSystem.Controllers
 		//	var books = await _unitOfWork.Books.GetAllAsync();
 		//	return Ok(books);
 		//}
+
+		//working
 		[HttpGet]
 		public IQueryable<BookDTO> GetAll()
 		{
@@ -34,6 +36,7 @@ namespace LibraryManagementSystem.Controllers
 			var book = await _unitOfWork.Books.GetByIdAsync(id);
 			if (book == null) return NotFound();
 			return Ok(book);
+
 		}
 		//working
 		[HttpPost]
