@@ -1,7 +1,7 @@
 ﻿using LibraryManagementSystem.Models;
 using LibraryManagementSystem.Repositories;
-using LibraryManagementSystem.Services;
 using Microsoft.AspNetCore.Mvc;
+using LibraryManagementSystem.Shared;
 
 namespace LibraryManagementSystem.Controllers
 {
@@ -15,16 +15,41 @@ namespace LibraryManagementSystem.Controllers
 		{
 			_unitOfWork = unitOfWork;
 		}
-		//working
-		//[HttpGet]
-		//public async Task<IActionResult> GetAllBooks()
-		//{
-		//	var books = await _unitOfWork.Books.GetAllAsync();
-		//	return Ok(books);
-		//}
 
-		//working
-		[HttpGet]
+        private Book MapToBook(BookDTO bookDto)
+        {
+            return new Book
+            {
+                Book_Id = bookDto.Book_Id,
+                Title = bookDto.Title,
+                Author_Id = bookDto.Author_Id,
+                PublishedYear = bookDto.PublishedYear,
+                Creation_Time = DateTime.Now,
+                LastUpdate_Time = DateTime.Now
+            };
+        }
+
+        private BookDTO MapToBookDTO(Book book)
+        {
+            return new BookDTO
+            {
+                Book_Id = book.Book_Id,
+                Title = book.Title,
+                Author_Id = book.Author_Id,
+                PublishedYear = book.PublishedYear
+            };
+        }
+
+        //working
+        //[HttpGet]
+        //public async Task<IActionResult> GetAllBooks()
+        //{
+        //	var books = await _unitOfWork.Books.GetAllAsync();
+        //	return Ok(books);
+        //}
+
+        //working
+        [HttpGet]
 		public IQueryable<BookDTO> GetAll()
 		{
 			return _unitOfWork.Books.GetAll();

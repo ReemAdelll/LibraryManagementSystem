@@ -1,10 +1,6 @@
 ﻿using LibraryManagementSystem.DataBaseConnection;
 using LibraryManagementSystem.Models;
-using LibraryManagementSystem.Repositories;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using LibraryManagementSystem.Shared;
 
 namespace LibraryManagementSystem.Services
 {

@@ -1,5 +1,5 @@
-﻿using LibraryManagementSystem.Models;
-using LibraryManagementSystem.Repositories;
+﻿using LibraryManagementSystem.Repositories;
+using LibraryManagementSystem.Shared;
 
 namespace LibraryManagementSystem.Services
 {

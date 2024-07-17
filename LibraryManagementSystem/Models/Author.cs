@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using LibraryManagementSystem.Shared;
 
 namespace LibraryManagementSystem.Models
 {
