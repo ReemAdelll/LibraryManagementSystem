@@ -3,9 +3,6 @@ using LibraryManagementSystem.Repositories;
 using LibraryManagementSystem.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 namespace LibraryManagementSystem.ExtentionMethods
 
 {
