@@ -3,10 +3,15 @@ using LibraryManagementSystem.Repositories;
 using LibraryManagementSystem.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 namespace LibraryManagementSystem.ExtentionMethods
+
 {
     public static class Extensions
     {
+          //Services Extention Method
           public static IServiceCollection ServicesRegistration(this IServiceCollection services, IConfiguration configuration)
         {
             //1- Regist The DbContext
@@ -37,6 +42,25 @@ namespace LibraryManagementSystem.ExtentionMethods
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
             return services;
+        }
+
+        //middle ware extention method
+        public static IApplicationBuilder UseMiddlewares(this IApplicationBuilder app, IHostEnvironment env) 
+        {
+            if (env.IsDevelopment())
+            { 
+                app.UseSwagger();
+				app.UseSwaggerUI();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "LibraryManagementSystem v1"));
+            }
+            app.UseHttpsRedirection();
+            app.UseRouting();
+            app.UseAuthorization();
+           app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers(); 
+            });
+            return app;
         }
     }
 }
