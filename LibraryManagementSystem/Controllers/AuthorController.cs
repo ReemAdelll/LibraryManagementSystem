@@ -19,7 +19,7 @@ namespace LibraryManagementSystem.Controllers
 		{
 			return new Author
 			{
-                Author_Id = authorDto.Author_Id,
+                AuthorId = authorDto.AuthorId,
 				Name = authorDto.Name,
 				Country = authorDto.Country,
 				Bio = authorDto.Bio,
@@ -31,7 +31,7 @@ namespace LibraryManagementSystem.Controllers
 		{
 			return new AuthorDTO
 			{
-				Author_Id = author.Author_Id,
+				AuthorId = author.AuthorId,
 				Name = author.Name,
 				Country = author.Country,
 				Bio = author.Bio
@@ -72,7 +72,7 @@ namespace LibraryManagementSystem.Controllers
 			var existingAuthor = await _unitOfWork.Authors.GetByIdAsync(id);
 			if (existingAuthor == null) return NotFound();
 
-			AuthorDto.Author_Id = id;
+			AuthorDto.AuthorId = id;
 			await _unitOfWork.Authors.UpdateAsync(AuthorDto);
 			await _unitOfWork.CompleteAsync();
 
@@ -88,7 +88,7 @@ namespace LibraryManagementSystem.Controllers
 			var author = await _unitOfWork.Authors.AddAsync(AuthorDto);
 			await _unitOfWork.CompleteAsync();
 
-			return CreatedAtAction(nameof(GetAuthorById), new { id = author.Author_Id }, author);
+			return CreatedAtAction(nameof(GetAuthorById), new { id = author.AuthorId }, author);
 		}
 		//working
 		[HttpDelete("{id}")]

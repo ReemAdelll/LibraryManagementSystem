@@ -20,9 +20,9 @@ namespace LibraryManagementSystem.Controllers
         {
             return new Book
             {
-                Book_Id = bookDto.Book_Id,
+                BookId = bookDto.BookId,
                 Title = bookDto.Title,
-                Author_Id = bookDto.Author_Id,
+                AuthorId = bookDto.AuthorId,
                 PublishedYear = bookDto.PublishedYear,
                 //Creation_Time = DateTime.Now,
                 //LastUpdate_Time = DateTime.Now
@@ -33,9 +33,9 @@ namespace LibraryManagementSystem.Controllers
         {
             return new BookDTO
             {
-                Book_Id = book.Book_Id,
+                BookId = book.BookId,
                 Title = book.Title,
-                Author_Id = book.Author_Id,
+                AuthorId = book.AuthorId,
                 PublishedYear = book.PublishedYear
             };
         }
@@ -73,7 +73,7 @@ namespace LibraryManagementSystem.Controllers
 			var book = await _unitOfWork.Books.AddAsync(bookDto);
 			await _unitOfWork.CompleteAsync();
 
-			return CreatedAtAction(nameof(GetBookById), new { id = book.Book_Id }, book);
+			return CreatedAtAction(nameof(GetBookById), new { id = book.BookId }, book);
 		}
 		//working
 		[HttpPut("{id}")]
@@ -85,7 +85,7 @@ namespace LibraryManagementSystem.Controllers
 			var existingBook = await _unitOfWork.Books.GetByIdAsync(id);
 			if (existingBook == null) return NotFound();
 
-			bookDto.Book_Id = id;
+			bookDto.BookId = id;
 			await _unitOfWork.Books.UpdateAsync(bookDto);
 			await _unitOfWork.CompleteAsync();
 

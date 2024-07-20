@@ -9,10 +9,10 @@ namespace LibraryManagementSystem.DataBaseConnection
         // Fluent API configuration for Book
         public void Configure(EntityTypeBuilder<Book> builder)
         {
-            builder.HasKey(e => e.Book_Id);
+            builder.HasKey(e => e.BookId);
             builder.Property(e => e.Title).IsRequired().HasMaxLength(200);
             builder.Property(e => e.PublishedYear).IsRequired();
-            builder.HasOne(e => e.Author).WithMany(a => a.Books).HasForeignKey(e => e.Author_Id);
+            builder.HasOne(e => e.Author).WithMany(a => a.Books).HasForeignKey(e => e.AuthorId);
 
         }
     }

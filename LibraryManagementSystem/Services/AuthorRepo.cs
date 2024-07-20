@@ -17,14 +17,14 @@ namespace LibraryManagementSystem.Services
 		//public async Task<IEnumerable<AuthorDTO>> GetAllAsync()
 		//{
 		//	var authors = await _context.Authors.ToListAsync();
-		//	return authors.Select(a => new AuthorDTO { Author_Id = a.Author_Id, Name = a.Name ,Country=a.Country});
+		//	return authors.Select(a => new AuthorDTO { AuthorId = a.AuthorId, Name = a.Name ,Country=a.Country});
 		//}
 		public IQueryable<AuthorDTO> GetAll()
 		{
 			return _context.Authors
 				.Select(a => new AuthorDTO
 				{
-					Author_Id = a.Author_Id,
+					AuthorId = a.AuthorId,
 					Name = a.Name,
 					Country = a.Country
 					// Map other properties as needed
@@ -34,13 +34,13 @@ namespace LibraryManagementSystem.Services
 		{
 			var author = await _context.Authors.FindAsync(id);
 			if (author == null) return null;
-			return new AuthorDTO { Author_Id = author.Author_Id, Name = author.Name };
+			return new AuthorDTO { AuthorId = author.AuthorId, Name = author.Name };
 		}
 		//special method for author, not from base
 		public async Task<IEnumerable<AuthorDTO>> GetAllAuthorsWithBooksAsync()
 		{
 			var authors = await _context.Authors.Include(a => a.Books).ToListAsync();
-			return authors.Select(a => new AuthorDTO { Author_Id = a.Author_Id, Name = a.Name,Country=a.Country});
+			return authors.Select(a => new AuthorDTO { AuthorId = a.AuthorId, Name = a.Name,Country=a.Country});
 		}
 
 		public async Task<AuthorDTO> AddAsync(AuthorDTO authorDto)
@@ -48,13 +48,13 @@ namespace LibraryManagementSystem.Services
 			var author = new Author { Name = authorDto.Name, Country= authorDto.Country, Bio= authorDto.Bio };
 			_context.Authors.Add(author);
 			await _context.SaveChangesAsync();
-			authorDto.Author_Id = author.Author_Id;
+			authorDto.AuthorId = author.AuthorId;
 			return authorDto;
 		}
 
 		public async Task<AuthorDTO> UpdateAsync(AuthorDTO authorDto)
 		{
-			var author = await _context.Authors.FindAsync(authorDto.Author_Id);
+			var author = await _context.Authors.FindAsync(authorDto.AuthorId);
 			if (author == null) return null;
 			author.Name = authorDto.Name;
 			author.Country = authorDto.Country;
