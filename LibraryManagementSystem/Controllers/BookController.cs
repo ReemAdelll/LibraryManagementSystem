@@ -24,8 +24,8 @@ namespace LibraryManagementSystem.Controllers
                 Title = bookDto.Title,
                 Author_Id = bookDto.Author_Id,
                 PublishedYear = bookDto.PublishedYear,
-                Creation_Time = DateTime.Now,
-                LastUpdate_Time = DateTime.Now
+                //Creation_Time = DateTime.Now,
+                //LastUpdate_Time = DateTime.Now
             };
         }
 

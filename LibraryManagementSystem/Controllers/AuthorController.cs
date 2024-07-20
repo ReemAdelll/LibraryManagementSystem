@@ -19,12 +19,12 @@ namespace LibraryManagementSystem.Controllers
 		{
 			return new Author
 			{
-				Id = authorDto.Author_Id,
+                Author_Id = authorDto.Author_Id,
 				Name = authorDto.Name,
 				Country = authorDto.Country,
 				Bio = authorDto.Bio,
-				Creation_Time = DateTime.Now,
-				LastUpdate_Time = DateTime.Now
+				//Creation_Time = DateTime.Now,
+				//LastUpdate_Time = DateTime.Now
 			};
 		}
 		private AuthorDTO MapToAuthorDTO(Author author)
