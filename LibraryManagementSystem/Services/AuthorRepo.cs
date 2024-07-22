@@ -27,7 +27,7 @@ namespace LibraryManagementSystem.Services
 					AuthorId = a.AuthorId,
 					Name = a.Name,
 					Country = a.Country
-					// Map other properties as needed
+					
 				});
 		}
 		public async Task<AuthorDTO> GetByIdAsync(int id)

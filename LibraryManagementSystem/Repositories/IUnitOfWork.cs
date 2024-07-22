@@ -7,6 +7,9 @@ namespace LibraryManagementSystem.Repositories
 	{
 		IAuthorRepo Authors { get; }
 		IBookRepo Books { get; }
+		IGenreRepo Genres { get; }
+		IMemberRepo Members { get; }
+		IBorrowedBookRepo borrowedBooks {  get; }
 		Task<int> CompleteAsync();
 
 	}

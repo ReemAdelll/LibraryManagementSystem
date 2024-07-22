@@ -1,4 +1,5 @@
-﻿using LibraryManagementSystem.DataBaseConnection;
+﻿using LibraryManagementSystem.Controllers;
+using LibraryManagementSystem.DataBaseConnection;
 using LibraryManagementSystem.Repositories;
 using LibraryManagementSystem.Services;
 using Microsoft.EntityFrameworkCore;
@@ -20,14 +21,38 @@ namespace LibraryManagementSystem.ExtentionMethods
             services.AddScoped<IAuthorRepo, AuthorRepo>();
             services.AddScoped<IBookRepo, BookRepo>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IGenreRepo,GenreRepo>();
+            services.AddScoped<IMemberRepo, MemberRepo>();
+            services.AddScoped<IBorrowedBookRepo, BorrowedBookRepo>();
 
-            //3- Controllers
+            //3 - Controllers
+            // this is the old wich working with author and book
+            //services.AddControllers()
+            //.AddJsonOptions(options =>
+            //{
+            //    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+            //    options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
+            //    // trying to handle serialization problem
+            //});
+
+
+
+            // //just to test NewtonsoftJson instead of AddJsonOptions
+            // services.AddControllers()
+            //.AddNewtonsoftJson(options =>
+            //{
+            //    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            //    options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+            //    // You can configure more Newtonsoft.Json settings here if needed
+            //});
+
+            //last try
             services.AddControllers()
-            .AddJsonOptions(options =>
-            {
-                options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
-                options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
-            });
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                    options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+                });
 
             //4- Swagger
             services.AddSwaggerGen(c =>

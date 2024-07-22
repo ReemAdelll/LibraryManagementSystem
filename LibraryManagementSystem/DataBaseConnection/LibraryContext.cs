@@ -11,13 +11,19 @@ namespace LibraryManagementSystem.DataBaseConnection
 		public DbSet<Author> Authors { get; set; }
 		
 		public DbSet<Book> Books { get; set; }
+		public DbSet<Genre> Genres { get; set; }
+		public DbSet<Member> Members { get; set; }
+		public DbSet<BorrowedBook> BorrowedBooks { get; set; }
 
-		//Fluent API
-		protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //Fluent API
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new AuthorConfiguration());
             modelBuilder.ApplyConfiguration(new BookConfiguration());
+			modelBuilder.ApplyConfiguration(new  GenreConfiguration());
+			modelBuilder.ApplyConfiguration(new  MemberConfiguration());
+			modelBuilder.ApplyConfiguration(new  BorrowedBookConfiguration());
         }
 	}
 }

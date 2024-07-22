@@ -2,6 +2,7 @@
 using LibraryManagementSystem.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using LibraryManagementSystem.Shared;
+
 namespace LibraryManagementSystem.Controllers
 {
 	[Route("api/[controller]")]
@@ -46,8 +47,8 @@ namespace LibraryManagementSystem.Controllers
                 //	return Ok(authors);
                 //}
 
-                //working
-                [HttpGet]
+        //working
+        [HttpGet]
 		public IQueryable<AuthorDTO> GetAll()
 		{
 		   return _unitOfWork.Authors.GetAll();
