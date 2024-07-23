@@ -1,7 +1,6 @@
 ﻿using LibraryManagementSystem.Models;
 using LibraryManagementSystem.Repositories;
 using LibraryManagementSystem.Shared;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagementSystem.Controllers
@@ -38,13 +37,14 @@ namespace LibraryManagementSystem.Controllers
             ReturnDate = borrowedBook.ReturnDate,
         }; 
         }
-
+        //working
         [HttpGet]
         public IQueryable<BorrowedBookDTO> GetAll()
         {
             return _unitOfWork.borrowedBooks.GetAll();
         }
 
+        //working
         [HttpGet("{id}")]
         public async Task<IActionResult> GetBorrowedBookById(int id)
         {
@@ -52,7 +52,7 @@ namespace LibraryManagementSystem.Controllers
             if (BorrowedBook == null) return NotFound();
             return Ok(BorrowedBook);
         }
-
+        //working
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateBorrowedBook(int id, [FromBody] BorrowedBookDTO BorrowedBookDto)
         {
@@ -68,7 +68,7 @@ namespace LibraryManagementSystem.Controllers
 
             return NoContent();
         }
-
+        //working
         [HttpPost]
         public async Task<IActionResult> CreateBorrowedBook([FromBody] BorrowedBookDTO BorrowedBookDto)
         {
@@ -80,7 +80,7 @@ namespace LibraryManagementSystem.Controllers
 
             return CreatedAtAction(nameof(GetBorrowedBookById), new { id = borrowedBook.BorrowedBookId }, borrowedBook);
         }
-
+        //working
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBorrowedBook(int id)
         {

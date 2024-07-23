@@ -1,7 +1,6 @@
 ﻿using LibraryManagementSystem.DataBaseConnection;
 using LibraryManagementSystem.Models;
 using LibraryManagementSystem.Shared;
-using System.Net;
 
 namespace LibraryManagementSystem.Services
 {

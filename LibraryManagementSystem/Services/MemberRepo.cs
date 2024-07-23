@@ -11,6 +11,7 @@ namespace LibraryManagementSystem.Services
         {
             _context = context;
         }
+        //working
         public async Task<MemberDTO> AddAsync(MemberDTO memberDTO)
         {
             var member = new Member
@@ -26,7 +27,7 @@ namespace LibraryManagementSystem.Services
             memberDTO.MemberId = member.MemberId;
             return memberDTO;
         }
-
+        //working
         public async Task<bool> DeleteAsync(int id)
         {
             var member = await _context.Members.FindAsync(id);
@@ -35,14 +36,14 @@ namespace LibraryManagementSystem.Services
             await _context.SaveChangesAsync();
             return true;
         }
-
+        //working
         public IQueryable<MemberDTO> GetAll()
         {
             return _context.Members.Select(a => new MemberDTO { MemberId = a.MemberId,
                 FirstName = a.FirstName, LastName = a.LastName,
                 Email= a.Email,PhoneNumber= a.PhoneNumber});
         }
-
+        //working
         public async Task<MemberDTO> GetByIdAsync(int id)
         {
             var member =  await _context.Members.FindAsync(id);
@@ -56,7 +57,7 @@ namespace LibraryManagementSystem.Services
                 PhoneNumber = member.PhoneNumber
             };
         }
-
+        //working
         public async Task<MemberDTO> UpdateAsync(MemberDTO memberDTO)
         {
             var member = await _context.Members.FindAsync(memberDTO.MemberId);

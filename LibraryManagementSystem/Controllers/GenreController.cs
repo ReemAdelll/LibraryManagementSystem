@@ -7,9 +7,6 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 
 
-
-
-
 namespace LibraryManagementSystem.Controllers
 {
     
@@ -42,28 +39,32 @@ namespace LibraryManagementSystem.Controllers
             return _unitOfWork.Genres.GetAll();
         }
 
-       //(not working) invalid for serialization or deserialization because it is a pointer type, is a ref struct, or contains generic parameters that have not been replaced by specific types
-
+       
+        //working
         [HttpGet("{id}")]
         public async Task<IActionResult> GetGenreById(int id)
         {
-            var genre = _unitOfWork.Genres.GetByIdAsync(id);
+            var genre =await _unitOfWork.Genres.GetByIdAsync(id);
             if (genre == null) return NotFound();
             return Ok(genre);
            
         }
+
+        //working
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateGenre(int id, [FromBody] GenreDTO GenreDto) 
         {
             if (!ModelState.IsValid)
             return BadRequest(ModelState);
-            var existingGenre = await _unitOfWork.Authors.GetByIdAsync(id);
+            var existingGenre = await _unitOfWork.Genres.GetByIdAsync(id);
             if (existingGenre == null) return NotFound();
             GenreDto.GenreId = id;
             await _unitOfWork.Genres.UpdateAsync(GenreDto);
             await _unitOfWork.CompleteAsync();
             return NoContent();
         }
+
+        //working
         [HttpPost]
         public async Task<IActionResult>CreateGenre([FromBody] GenreDTO GenreDto)
         {
@@ -74,6 +75,7 @@ namespace LibraryManagementSystem.Controllers
             return CreatedAtAction(nameof(GetGenreById), new { id = genre.GenreId }, genre);
         }
 
+        //working
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteGenre(int id)
         {
