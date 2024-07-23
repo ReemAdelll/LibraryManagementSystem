@@ -3,6 +3,11 @@ using LibraryManagementSystem.Repositories;
 using LibraryManagementSystem.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using FluentValidation;
+using LibraryManagementSystem.Shared;
+using FluentValidation.AspNetCore;
+using LibraryManagementSystem.Shared.Validators;
+
 namespace LibraryManagementSystem.ExtentionMethods
 
 {
@@ -14,6 +19,18 @@ namespace LibraryManagementSystem.ExtentionMethods
             //1- Regist The DbContext
             services.AddDbContext<LibraryContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("Conn1")));
+
+            //Register The FluentValidation
+            //Register "All" Validators In The Same Assembly
+            services.AddControllers()
+               .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AuthorDTOValidator>());
+
+            // "Optionally", if we want to explicitly register each validator as well
+            services.AddTransient<IValidator<AuthorDTO>, AuthorDTOValidator>();
+            services.AddTransient<IValidator<BookDTO>, BookDTOValidator>();
+            services.AddTransient<IValidator<MemberDTO>, MemberDTOValidator>();
+            services.AddTransient<IValidator<GenreDTO>, GenreDTOValidator>();
+            services.AddTransient<IValidator<BorrowedBookDTO>, BorrowedBookDTOValidator>();
 
             //2- Regist The Rest Of Needed Services
 
