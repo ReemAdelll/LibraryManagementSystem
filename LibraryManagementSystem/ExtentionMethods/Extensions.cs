@@ -7,6 +7,8 @@ using FluentValidation;
 using LibraryManagementSystem.Shared;
 using FluentValidation.AspNetCore;
 using LibraryManagementSystem.Shared.Validators;
+using Microsoft.AspNetCore.Hosting;
+using LibraryManagementSystem.Middlewares;
 
 namespace LibraryManagementSystem.ExtentionMethods
 
@@ -83,21 +85,22 @@ namespace LibraryManagementSystem.ExtentionMethods
         }
 
         //middle ware extention method
-        public static IApplicationBuilder UseMiddlewares(this IApplicationBuilder app, IHostEnvironment env) 
+            public static IApplicationBuilder UseMiddlewares(this IApplicationBuilder app, IHostEnvironment env)
         {
+            app.UseMiddleware<ExceptionHandlerMiddleware>();
             if (env.IsDevelopment())
-            { 
+            {
                 app.UseSwagger();
-				app.UseSwaggerUI();
+                app.UseSwaggerUI();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "LibraryManagementSystem v1"));
             }
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
-           app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers(); 
-            });
+            app.UseEndpoints(endpoints =>
+             {
+                 endpoints.MapControllers();
+             });
             return app;
         }
     }
