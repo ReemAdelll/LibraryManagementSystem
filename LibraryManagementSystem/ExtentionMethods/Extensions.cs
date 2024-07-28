@@ -9,6 +9,7 @@ using FluentValidation.AspNetCore;
 using LibraryManagementSystem.Shared.Validators;
 using Microsoft.AspNetCore.Hosting;
 using LibraryManagementSystem.Middlewares;
+using LibraryManagementSystem.Interceptors;
 
 namespace LibraryManagementSystem.ExtentionMethods
 
@@ -20,7 +21,7 @@ namespace LibraryManagementSystem.ExtentionMethods
         {
             //1- Regist The DbContext
             services.AddDbContext<LibraryContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("Conn1")));
+                options.UseSqlServer(configuration.GetConnectionString("Conn1")).AddInterceptors(new AuditDataInterceptor()));
 
             //Register The FluentValidation
             //Register "All" Validators In The Same Assembly

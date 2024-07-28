@@ -10,6 +10,9 @@ namespace LibraryManagementSystem.DataBaseConnection
         {
             builder.HasKey(e=>e.GenreId);
             builder.Property(e => e.GenreName).IsRequired().HasMaxLength(50);
+
+            builder.Property(e => e.CreationTime).HasDefaultValue(null);
+            builder.Property(e => e.LastUpdateTime).HasDefaultValue(null);
         }
     }
 }

@@ -13,6 +13,9 @@ namespace LibraryManagementSystem.DataBaseConnection
             builder.Property(a => a.LastName).IsRequired().HasMaxLength(10);
             builder.Property(a => a.PhoneNumber).IsRequired().HasMaxLength(11);
             builder.Property(a => a.Email).IsRequired();
+
+            builder.Property(e => e.CreationTime).HasDefaultValue(null);
+            builder.Property(e => e.LastUpdateTime).HasDefaultValue(null);
         }
     }
 }

@@ -14,6 +14,9 @@ namespace LibraryManagementSystem.DataBaseConnection
             builder.Property(e => e.PublishedYear).IsRequired();
             builder.HasOne(e => e.Author).WithMany(a => a.Books).HasForeignKey(e => e.AuthorId);
 
+            builder.Property(e => e.CreationTime).HasDefaultValue(null);
+            builder.Property(e => e.LastUpdateTime).HasDefaultValue(null);
+
         }
     }
 }

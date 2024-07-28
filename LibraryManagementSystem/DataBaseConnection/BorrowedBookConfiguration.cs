@@ -13,6 +13,9 @@ namespace LibraryManagementSystem.DataBaseConnection
             builder.Property(b => b.MemberId).IsRequired();
             builder.Property(b => b.BorrowDate).IsRequired();
             builder.Property(b => b.ReturnDate).IsRequired();
+
+            builder.Property(e => e.CreationTime).HasDefaultValue(null);
+            builder.Property(e => e.LastUpdateTime).HasDefaultValue(null);
         }
     }
 }

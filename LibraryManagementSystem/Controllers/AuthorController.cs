@@ -24,9 +24,9 @@ namespace LibraryManagementSystem.Controllers
 				Name = authorDto.Name,
 				Country = authorDto.Country,
 				Bio = authorDto.Bio,
-				//Creation_Time = DateTime.Now,
-				//LastUpdate_Time = DateTime.Now
-			};
+                //CreationTime = DateTime.Now,
+                //LastUpdateTime = DateTime.Now
+            };
 		}
 		private AuthorDTO MapToAuthorDTO(Author author)
 		{

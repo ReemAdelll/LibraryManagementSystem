@@ -14,6 +14,9 @@ namespace LibraryManagementSystem.DataBaseConnection
             builder.Property(e => e.Bio).HasMaxLength(1000).IsRequired(false);
             builder.Property(e => e.Country).HasMaxLength(50);
             builder.HasMany(e => e.Books).WithOne(b => b.Author).HasForeignKey(b => b.AuthorId);
+
+            builder.Property(e => e.CreationTime).HasDefaultValue(null);
+            builder.Property(e => e.LastUpdateTime).HasDefaultValue(null);
         }
     }
 }

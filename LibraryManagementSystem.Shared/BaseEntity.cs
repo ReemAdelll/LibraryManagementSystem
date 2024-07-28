@@ -2,8 +2,8 @@
 {
     public class BaseEntity<TId>
     {
-        public int Id { get; private set; }
-        public DateTime CreationTime { get; private set; }
+        public int Id { get; set; }
+        public DateTime CreationTime { get; set; }
         public DateTime LastUpdateTime { get; set; }
 
 
