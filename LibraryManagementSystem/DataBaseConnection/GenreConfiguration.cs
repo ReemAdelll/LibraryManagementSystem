@@ -8,7 +8,7 @@ namespace LibraryManagementSystem.DataBaseConnection
     {
         public void Configure(EntityTypeBuilder<Genre> builder)
         {
-            builder.HasKey(e=>e.GenreId);
+            builder.HasKey(e=>e.Id);
             builder.Property(e => e.GenreName).IsRequired().HasMaxLength(50);
 
             builder.Property(e => e.CreationTime).HasDefaultValue(null);

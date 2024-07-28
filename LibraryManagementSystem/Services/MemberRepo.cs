@@ -16,7 +16,7 @@ namespace LibraryManagementSystem.Services
         {
             var member = new Member
             {
-                MemberId = memberDTO.MemberId,
+                Id = memberDTO.Id,
                 FirstName = memberDTO.FirstName,
                 LastName = memberDTO.LastName,
                 Email = memberDTO.Email,
@@ -24,7 +24,7 @@ namespace LibraryManagementSystem.Services
             };
             _context.Members.Add(member);
             await _context.SaveChangesAsync();
-            memberDTO.MemberId = member.MemberId;
+            memberDTO.Id = member.Id;
             return memberDTO;
         }
         //working
@@ -39,7 +39,7 @@ namespace LibraryManagementSystem.Services
         //working
         public IQueryable<MemberDTO> GetAll()
         {
-            return _context.Members.Select(a => new MemberDTO { MemberId = a.MemberId,
+            return _context.Members.Select(a => new MemberDTO { Id = a.Id,
                 FirstName = a.FirstName, LastName = a.LastName,
                 Email= a.Email,PhoneNumber= a.PhoneNumber});
         }
@@ -50,7 +50,7 @@ namespace LibraryManagementSystem.Services
             if (member == null) return null;
             return new MemberDTO
             {
-                MemberId = member.MemberId,
+                Id = member.Id,
                 FirstName = member.FirstName,
                 LastName = member.LastName,
                 Email = member.Email,
@@ -60,9 +60,9 @@ namespace LibraryManagementSystem.Services
         //working
         public async Task<MemberDTO> UpdateAsync(MemberDTO memberDTO)
         {
-            var member = await _context.Members.FindAsync(memberDTO.MemberId);
+            var member = await _context.Members.FindAsync(memberDTO.Id);
             if (member == null) return null;
-            member.MemberId = memberDTO.MemberId;
+            member.Id = memberDTO.Id;
             member.FirstName = memberDTO.FirstName;
             member.LastName = memberDTO.LastName;
             member.Email = memberDTO.Email;

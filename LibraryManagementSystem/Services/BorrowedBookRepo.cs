@@ -18,13 +18,13 @@ namespace LibraryManagementSystem.Services
                 BookId = borrowedBookDTO.BookId,
                 MemberId = borrowedBookDTO.MemberId
            ,
-                BorrowedBookId = borrowedBookDTO.BorrowedBookId,
+                Id = borrowedBookDTO.Id,
                 BorrowDate = borrowedBookDTO.BorrowDate,
                 ReturnDate = borrowedBookDTO.ReturnDate
             };
             _context.BorrowedBooks.Add(borrowedBook);
             await _context.SaveChangesAsync();
-            borrowedBookDTO.BorrowedBookId = borrowedBook.BorrowedBookId;
+            borrowedBookDTO.Id = borrowedBook.Id;
             return borrowedBookDTO;
         }
 
@@ -40,7 +40,7 @@ namespace LibraryManagementSystem.Services
         public IQueryable<BorrowedBookDTO> GetAll()
         {
             return _context.BorrowedBooks.Select(a=> new BorrowedBookDTO { BookId = a.BookId,MemberId = a.MemberId
-            , BorrowedBookId = a.BorrowedBookId, BorrowDate= a.BorrowDate, ReturnDate= a.ReturnDate});
+            , Id = a.Id, BorrowDate= a.BorrowDate, ReturnDate= a.ReturnDate});
 
         }
 
@@ -51,7 +51,7 @@ namespace LibraryManagementSystem.Services
             return new BorrowedBookDTO {
                 BookId = BorrowedBook.BookId,
                 MemberId = BorrowedBook.MemberId
-            ,BorrowedBookId = BorrowedBook.BorrowedBookId,
+            ,Id = BorrowedBook.Id,
                 BorrowDate = BorrowedBook.BorrowDate,
                 ReturnDate = BorrowedBook.ReturnDate
             };
@@ -59,11 +59,11 @@ namespace LibraryManagementSystem.Services
 
         public async Task<BorrowedBookDTO> UpdateAsync(BorrowedBookDTO borrowedBookDTO)
         {
-            var BorrowedBook = await _context.BorrowedBooks.FindAsync(borrowedBookDTO.BorrowedBookId);
+            var BorrowedBook = await _context.BorrowedBooks.FindAsync(borrowedBookDTO.Id);
             if (BorrowedBook == null) return null;
             BorrowedBook.BookId = borrowedBookDTO.BookId;
             BorrowedBook.MemberId = borrowedBookDTO.MemberId;
-            BorrowedBook.BorrowedBookId = borrowedBookDTO.BorrowedBookId;
+            BorrowedBook.Id = borrowedBookDTO.Id;
             BorrowedBook.BorrowDate = borrowedBookDTO.BorrowDate;
             BorrowedBook.ReturnDate = borrowedBookDTO.ReturnDate;
             _context.BorrowedBooks.Update(BorrowedBook);

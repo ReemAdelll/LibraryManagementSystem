@@ -24,11 +24,11 @@ namespace LibraryManagementSystem.Migrations
 
             modelBuilder.Entity("LibraryManagementSystem.Models.Author", b =>
                 {
-                    b.Property<int>("AuthorId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AuthorId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Bio")
                         .HasMaxLength(1000)
@@ -42,9 +42,6 @@ namespace LibraryManagementSystem.Migrations
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("LastUpdateTime")
                         .HasColumnType("datetime2");
 
@@ -53,27 +50,24 @@ namespace LibraryManagementSystem.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.HasKey("AuthorId");
+                    b.HasKey("Id");
 
                     b.ToTable("Authors");
                 });
 
             modelBuilder.Entity("LibraryManagementSystem.Models.Book", b =>
                 {
-                    b.Property<int>("BookId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AuthorId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("LastUpdateTime")
                         .HasColumnType("datetime2");
@@ -86,7 +80,7 @@ namespace LibraryManagementSystem.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.HasKey("BookId");
+                    b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
 
@@ -95,11 +89,11 @@ namespace LibraryManagementSystem.Migrations
 
             modelBuilder.Entity("LibraryManagementSystem.Models.BorrowedBook", b =>
                 {
-                    b.Property<int>("BorrowedBookId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BorrowedBookId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("BookId")
                         .HasColumnType("int");
@@ -110,9 +104,6 @@ namespace LibraryManagementSystem.Migrations
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("LastUpdateTime")
                         .HasColumnType("datetime2");
 
@@ -122,7 +113,7 @@ namespace LibraryManagementSystem.Migrations
                     b.Property<DateTime>("ReturnDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("BorrowedBookId");
+                    b.HasKey("Id");
 
                     b.HasIndex("BookId");
 
@@ -133,11 +124,11 @@ namespace LibraryManagementSystem.Migrations
 
             modelBuilder.Entity("LibraryManagementSystem.Models.Genre", b =>
                 {
-                    b.Property<int>("GenreId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GenreId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
@@ -147,24 +138,21 @@ namespace LibraryManagementSystem.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("LastUpdateTime")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("GenreId");
+                    b.HasKey("Id");
 
                     b.ToTable("Genres");
                 });
 
             modelBuilder.Entity("LibraryManagementSystem.Models.Member", b =>
                 {
-                    b.Property<int>("MemberId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MemberId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
@@ -178,9 +166,6 @@ namespace LibraryManagementSystem.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(10)
@@ -193,7 +178,7 @@ namespace LibraryManagementSystem.Migrations
                         .HasMaxLength(11)
                         .HasColumnType("int");
 
-                    b.HasKey("MemberId");
+                    b.HasKey("Id");
 
                     b.ToTable("Members");
                 });

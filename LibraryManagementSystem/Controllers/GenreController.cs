@@ -24,12 +24,12 @@ namespace LibraryManagementSystem.Controllers
         {
             return new Genre
             {
-                GenreId = genreDTO.GenreId, GenreName = genreDTO.GenreName,
+                Id = genreDTO.Id, GenreName = genreDTO.GenreName,
             };
         }
         private GenreDTO MapToGenreDTO(Genre genre)
         {
-            return new GenreDTO { GenreId = genre.GenreId, GenreName = genre.GenreName };
+            return new GenreDTO { Id = genre.Id, GenreName = genre.GenreName };
         }
 
         //working
@@ -58,7 +58,7 @@ namespace LibraryManagementSystem.Controllers
             return BadRequest(ModelState);
             var existingGenre = await _unitOfWork.Genres.GetByIdAsync(id);
             if (existingGenre == null) return NotFound();
-            GenreDto.GenreId = id;
+            GenreDto.Id = id;
             await _unitOfWork.Genres.UpdateAsync(GenreDto);
             await _unitOfWork.CompleteAsync();
             return NoContent();
@@ -72,7 +72,7 @@ namespace LibraryManagementSystem.Controllers
             return BadRequest(ModelState);
             var genre = await _unitOfWork.Genres.AddAsync(GenreDto);
             await _unitOfWork.CompleteAsync();
-            return CreatedAtAction(nameof(GetGenreById), new { id = genre.GenreId }, genre);
+            return CreatedAtAction(nameof(GetGenreById), new { id = genre.Id }, genre);
         }
 
         //working

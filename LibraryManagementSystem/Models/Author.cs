@@ -4,7 +4,6 @@ namespace LibraryManagementSystem.Models
 {
 	public class Author: BaseEntity<int>
 	{
-        public int AuthorId { get; set; }
 		public string Name { get; set;}
 		public string Bio { get; set; }
 		public string Country { get; set; }

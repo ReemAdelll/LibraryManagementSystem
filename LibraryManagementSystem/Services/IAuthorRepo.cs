@@ -6,7 +6,7 @@ namespace LibraryManagementSystem.Services
 	public interface IAuthorRepo : IBaseRepo<AuthorDTO>
 	{
 		//specific operations for Author
-		Task<IEnumerable<AuthorDTO>> GetAllAuthorsWithBooksAsync();
+		Task<IEnumerable<AuthorBooksDTO>> GetAllAuthorsWithBooksAsync();
 		
 	}
 }

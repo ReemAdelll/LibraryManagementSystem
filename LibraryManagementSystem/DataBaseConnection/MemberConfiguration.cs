@@ -8,7 +8,7 @@ namespace LibraryManagementSystem.DataBaseConnection
     {
         public void Configure(EntityTypeBuilder<Member> builder)
         {
-            builder.HasKey(a => a.MemberId);
+            builder.HasKey(a => a.Id);
             builder.Property(a => a.FirstName).IsRequired().HasMaxLength(10);
             builder.Property(a => a.LastName).IsRequired().HasMaxLength(10);
             builder.Property(a => a.PhoneNumber).IsRequired().HasMaxLength(11);

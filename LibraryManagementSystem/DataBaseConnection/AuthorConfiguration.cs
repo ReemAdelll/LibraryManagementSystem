@@ -9,7 +9,7 @@ namespace LibraryManagementSystem.DataBaseConnection
         // Fluent API configuration for Author
         public void Configure(EntityTypeBuilder<Author> builder) 
         {
-           builder.HasKey(e => e.AuthorId);
+           builder.HasKey(e => e.Id);
            builder.Property(e => e.Name).IsRequired().HasMaxLength(100);
             builder.Property(e => e.Bio).HasMaxLength(1000).IsRequired(false);
             builder.Property(e => e.Country).HasMaxLength(50);

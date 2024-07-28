@@ -2,7 +2,7 @@
 {
     public class GenreDTO
     {
-        public int GenreId { get; set; }
+        public int Id { get; set; }
         public string GenreName { get; set; }
     }
 }

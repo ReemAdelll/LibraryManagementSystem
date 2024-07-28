@@ -18,7 +18,7 @@ namespace LibraryManagementSystem.Controllers
         {
             return new BorrowedBook
             {
-                BorrowedBookId = borrowedBookDTO.BorrowedBookId,
+                Id = borrowedBookDTO.Id,
                 MemberId = borrowedBookDTO.MemberId
             ,
                 BookId = borrowedBookDTO.BookId,
@@ -29,7 +29,7 @@ namespace LibraryManagementSystem.Controllers
         }
         private BorrowedBookDTO MapToBorrowedBookDTO(BorrowedBook borrowedBook)
         { return new BorrowedBookDTO {
-            BorrowedBookId = borrowedBook.BorrowedBookId,
+            Id = borrowedBook.Id,
             MemberId = borrowedBook.MemberId
             ,
             BookId = borrowedBook.BookId,
@@ -62,7 +62,7 @@ namespace LibraryManagementSystem.Controllers
             var existingBorrowedBook = await _unitOfWork.borrowedBooks.GetByIdAsync(id);
             if (existingBorrowedBook == null) return NotFound();
 
-            BorrowedBookDto.BorrowedBookId = id;
+            BorrowedBookDto.Id = id;
             await _unitOfWork.borrowedBooks.UpdateAsync(BorrowedBookDto);
             await _unitOfWork.CompleteAsync();
 
@@ -78,7 +78,7 @@ namespace LibraryManagementSystem.Controllers
             var borrowedBook = await _unitOfWork.borrowedBooks.AddAsync(BorrowedBookDto);
             await _unitOfWork.CompleteAsync();
 
-            return CreatedAtAction(nameof(GetBorrowedBookById), new { id = borrowedBook.BorrowedBookId }, borrowedBook);
+            return CreatedAtAction(nameof(GetBorrowedBookById), new { id = borrowedBook.Id }, borrowedBook);
         }
         //working
         [HttpDelete("{id}")]

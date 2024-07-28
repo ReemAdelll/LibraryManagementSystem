@@ -19,14 +19,14 @@ namespace LibraryManagementSystem.Controllers
 
         private Member MapToMember(MemberDTO memberDto) 
         {
-        return new Member { MemberId = memberDto.MemberId, FirstName= memberDto.FirstName,
+        return new Member { Id = memberDto.Id, FirstName= memberDto.FirstName,
             LastName= memberDto.LastName, Email=memberDto.Email, PhoneNumber= memberDto.PhoneNumber };
         }
         private MemberDTO MapToMemberDTO( MemberDTO memberDto)
         {
             return new MemberDTO
             {
-                MemberId = memberDto.MemberId,
+                Id = memberDto.Id,
                 FirstName = memberDto.FirstName,
                 LastName = memberDto.LastName,
                 Email = memberDto.Email,
@@ -57,7 +57,7 @@ namespace LibraryManagementSystem.Controllers
             var existingMember = await _unitOfWork.Members.GetByIdAsync(id);
             if (existingMember == null) return NotFound();
 
-            memberDto.MemberId = id;
+            memberDto.Id = id;
             await _unitOfWork.Members.UpdateAsync(memberDto);
             await _unitOfWork.CompleteAsync();
             return NoContent();
@@ -72,7 +72,7 @@ namespace LibraryManagementSystem.Controllers
             var member = await _unitOfWork.Members.AddAsync(memberDto);
             await _unitOfWork.CompleteAsync();
 
-            return CreatedAtAction(nameof(GetMemberById), new { id = member.MemberId }, member);
+            return CreatedAtAction(nameof(GetMemberById), new { id = member.Id }, member);
         }
 
         [HttpDelete("{id}")]

@@ -8,7 +8,7 @@ namespace LibraryManagementSystem.DataBaseConnection
     {
         public void Configure(EntityTypeBuilder<BorrowedBook> builder)
         {
-            builder.HasKey(b => b.BorrowedBookId);
+            builder.HasKey(b => b.Id);
             builder.Property(b=>b.BookId).IsRequired();
             builder.Property(b => b.MemberId).IsRequired();
             builder.Property(b => b.BorrowDate).IsRequired();
