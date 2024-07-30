@@ -7,6 +7,6 @@ namespace LibraryManagementSystem.Services
     public interface IBorrowedBookRepo : IBaseRepo<BorrowedBookDTO>
     {
         //specific operations for BorrowedBook
-        Task<IEnumerable<BorrowedBookBooksDTO>> GetAllWithFilter(DateTime? startDate = null, DateTime? endDate = null);
+        Task<IEnumerable<BorrowedBookBooksDTO>> GetAllWithFilter(DateTime? startDate = null, DateTime? endDate = null, string? sortOrder = null);
     }
 }

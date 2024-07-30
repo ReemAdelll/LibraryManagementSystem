@@ -25,6 +25,8 @@ namespace LibraryManagementSystem.Services
 			{
 				Id = b.Id,
 				Title = b.Title,
+				AuthorId= b.AuthorId,
+				PublishedYear = b.PublishedYear,
 			}); ;
 		}
 

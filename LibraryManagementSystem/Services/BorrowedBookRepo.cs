@@ -46,11 +46,9 @@ namespace LibraryManagementSystem.Services
 
         }
         //to get with filter
-        public async Task<IEnumerable<BorrowedBookBooksDTO>> GetAllWithFilter(DateTime? startDate = null, DateTime? endDate = null)
+        public async Task<IEnumerable<BorrowedBookBooksDTO>> GetAllWithFilter(DateTime? startDate = null, DateTime? endDate = null, string? sortOrder = null)
         {
-            var query = _context.BorrowedBooks
-                .Include(bb => bb.Book)
-                .AsQueryable();
+            var query = _context.BorrowedBooks.Include(bb => bb.Book).AsQueryable();
 
             if (startDate.HasValue)
             {
@@ -60,6 +58,11 @@ namespace LibraryManagementSystem.Services
             if (endDate.HasValue)
             {
                 query = query.Where(bb => bb.BorrowDate <= endDate.Value);
+            }
+
+            if (!string.IsNullOrEmpty(sortOrder))
+            {
+                query = sortOrder.ToLower() == "desc"? query.OrderByDescending(bb => bb.BorrowDate) : query.OrderBy(bb => bb.BorrowDate);
             }
 
             var borrowedBooks = await query

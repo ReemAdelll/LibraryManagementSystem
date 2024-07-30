@@ -3,6 +3,7 @@ using LibraryManagementSystem.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using LibraryManagementSystem.Shared;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace LibraryManagementSystem.Controllers
 {
@@ -59,14 +60,22 @@ namespace LibraryManagementSystem.Controllers
 
 		//new get with filter
 		[HttpGet]
-		public async Task<IActionResult> GetAll([FromQuery] string?title)
+		public async Task<IActionResult> GetAll([FromQuery] string? title, [FromQuery] string? publishyear)
 		{ 
 			var booksQuery = _unitOfWork.Books.GetAll();
 			if(!string.IsNullOrEmpty(title))
 			{
 				booksQuery = booksQuery.Where(a => a.Title.ToLower().Contains(title.ToLower()));
-
             }
+			if(publishyear == "desc")
+			{
+				booksQuery = booksQuery.OrderByDescending(a => a.PublishedYear);
+            }
+			else
+			{
+                booksQuery = booksQuery.OrderBy(a => a.PublishedYear);
+            }
+			
 			var books = await booksQuery.ToListAsync();
 			return Ok(books);
 

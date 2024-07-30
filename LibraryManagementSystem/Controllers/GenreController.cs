@@ -43,12 +43,16 @@ namespace LibraryManagementSystem.Controllers
 
         //new get (with filter)
         [HttpGet]
-        public async Task <IActionResult> GetAll([FromQuery] string? name)
+        public async Task <IActionResult> GetAll([FromQuery] string? name, [FromQuery] string? sortOrder)
         {
             var genreQuery = _unitOfWork.Genres.GetAll();
             if(!string.IsNullOrEmpty(name))
             {
                 genreQuery = genreQuery.Where(a => a.GenreName.ToLower().Contains(name.ToLower()));
+            }
+            if (!string.IsNullOrEmpty(sortOrder))
+            {
+                genreQuery = sortOrder.ToLower() == "desc"?genreQuery.OrderByDescending(a => a.GenreName):genreQuery.OrderBy(a => a.GenreName);
             }
             var genres = await genreQuery.ToListAsync();
             return Ok(genres);

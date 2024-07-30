@@ -46,9 +46,9 @@ namespace LibraryManagementSystem.Controllers
         }
         //get with filter
         [HttpGet("Get With Filter")]
-        public async Task<IActionResult> GetAllWithFilter([FromQuery] DateTime? startDate = null, [FromQuery] DateTime? endDate = null)
+        public async Task<IActionResult> GetAllWithFilter([FromQuery] DateTime? startDate = null, [FromQuery] DateTime? endDate = null, [FromQuery] string? sortOrder = null)
         {
-            var borrowedBooks = await _unitOfWork.borrowedBooks.GetAllWithFilter(startDate, endDate);
+            var borrowedBooks = await _unitOfWork.borrowedBooks.GetAllWithFilter(startDate, endDate, sortOrder);
             return Ok(borrowedBooks);
         }
 

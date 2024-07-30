@@ -59,13 +59,21 @@ namespace LibraryManagementSystem.Controllers
         //new get with filter added
 		//Working
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] string? name)
+        public async Task<IActionResult> GetAll([FromQuery] string? name,[FromQuery] string? sortOrder)
         {
             var authorsQuery = _unitOfWork.Authors.GetAll();
 
             if (!string.IsNullOrEmpty(name))
             {
                 authorsQuery = authorsQuery.Where(a => a.Name.ToLower().Contains(name.ToLower()));
+            }
+            if (sortOrder == "desc")
+            {
+                authorsQuery = authorsQuery.OrderByDescending(a => a.Country);
+            }
+            else
+            {
+                authorsQuery = authorsQuery.OrderBy(a => a.Country);
             }
             var authors = await authorsQuery.ToListAsync();
 

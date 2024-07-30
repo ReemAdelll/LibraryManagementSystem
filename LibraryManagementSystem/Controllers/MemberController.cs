@@ -45,12 +45,18 @@ namespace LibraryManagementSystem.Controllers
 
         //new get with filter
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] string? firstName, [FromQuery] string? lastName)
+        public async Task<IActionResult> GetAll([FromQuery] string? firstName, [FromQuery] string? lastName, [FromQuery] string? sortOrder)
         {
             var membrquery = _unitOfWork.Members.GetAll();
             if(!string.IsNullOrEmpty(firstName) && !string.IsNullOrEmpty(lastName))
             {
                 membrquery = membrquery.Where(a=>a.FirstName.ToLower().Contains(firstName.ToLower()));
+            }
+            if (!string.IsNullOrEmpty(sortOrder))
+            {
+                membrquery = sortOrder.ToLower() == "desc"
+                    ? membrquery.OrderByDescending(a => a.FirstName)
+                    : membrquery.OrderBy(a => a.FirstName);
             }
             var members = await membrquery.ToListAsync();
             return Ok(members);
