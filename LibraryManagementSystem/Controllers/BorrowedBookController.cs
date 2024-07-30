@@ -2,6 +2,7 @@
 using LibraryManagementSystem.Repositories;
 using LibraryManagementSystem.Shared;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagementSystem.Controllers
 {
@@ -43,6 +44,14 @@ namespace LibraryManagementSystem.Controllers
         {
             return _unitOfWork.borrowedBooks.GetAll();
         }
+        //get with filter
+        [HttpGet("Get With Filter")]
+        public async Task<IActionResult> GetAllWithFilter([FromQuery] DateTime? startDate = null, [FromQuery] DateTime? endDate = null)
+        {
+            var borrowedBooks = await _unitOfWork.borrowedBooks.GetAllWithFilter(startDate, endDate);
+            return Ok(borrowedBooks);
+        }
+
 
         //working
         [HttpGet("{id}")]

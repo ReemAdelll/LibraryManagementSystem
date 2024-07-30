@@ -6,5 +6,6 @@ namespace LibraryManagementSystem.Services
     public interface IMemberRepo : IBaseRepo<MemberDTO>
     {
         //specific operations for Member
+        //public IQueryable<MemberDTO> GetAllWithFilter(string? firstName, string? lastName);
     }
 }

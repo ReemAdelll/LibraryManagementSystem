@@ -5,6 +5,7 @@ using LibraryManagementSystem.Shared;
 using NPOI.SS.Formula.Functions;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace LibraryManagementSystem.Controllers
@@ -33,13 +34,27 @@ namespace LibraryManagementSystem.Controllers
         }
 
         //working
+        //old get (without filter)
+        //[HttpGet]
+        //public IQueryable<GenreDTO> GetAll()
+        //{
+        //    return _unitOfWork.Genres.GetAll();
+        //}
+
+        //new get (with filter)
         [HttpGet]
-        public IQueryable<GenreDTO> GetAll()
+        public async Task <IActionResult> GetAll([FromQuery] string? name)
         {
-            return _unitOfWork.Genres.GetAll();
+            var genreQuery = _unitOfWork.Genres.GetAll();
+            if(!string.IsNullOrEmpty(name))
+            {
+                genreQuery = genreQuery.Where(a => a.GenreName.ToLower().Contains(name.ToLower()));
+            }
+            var genres = await genreQuery.ToListAsync();
+            return Ok(genres);
         }
 
-       
+
         //working
         [HttpGet("{id}")]
         public async Task<IActionResult> GetGenreById(int id)

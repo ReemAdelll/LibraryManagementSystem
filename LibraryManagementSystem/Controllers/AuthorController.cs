@@ -59,7 +59,7 @@ namespace LibraryManagementSystem.Controllers
         //new get with filter added
 		//Working
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] string name = null)
+        public async Task<IActionResult> GetAll([FromQuery] string? name)
         {
             var authorsQuery = _unitOfWork.Authors.GetAll();
 
@@ -123,7 +123,7 @@ namespace LibraryManagementSystem.Controllers
 
         //working
         [HttpGet("authors")]
-        public async Task<IActionResult> GetAllAuthorsWithBooks([FromQuery] string authorName = null, [FromQuery] string bookName = null)
+        public async Task<IActionResult> GetAllAuthorsWithBooks([FromQuery] string? authorName, [FromQuery] string? bookName)
         {
             var authors = await _unitOfWork.Authors.GetAllAuthorsWithBooksAsync(authorName, bookName);
             return Ok(authors);

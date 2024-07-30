@@ -36,37 +36,23 @@ namespace LibraryManagementSystem.Services
 			if (author == null) return null;
 			return new AuthorDTO { Id = author.Id, Name = author.Name };
 		}
+      
         //special method for author, not from base
-        //authors with their books (without filtering)
-        //public async Task<IEnumerable<AuthorBooksDTO>> GetAllAuthorsWithBooksAsync()
-        //{
-        //	var authors = await _context.Authors.Include(a => a.Books).ToListAsync();
-        //          return authors.Select(a => new AuthorBooksDTO 
-        //	{ Id = a.Id, Name = a.Name, Country = a.Country, 
-        //		Books = a.Books.Select(b => new BookDTO 
-        //		{ Id = b.Id,  Title = b.Title, PublishedYear = b.PublishedYear,
-        //			AuthorId = b.AuthorId }).ToList() });
-        //}
-
         //authors with their books (With filtering)
-        public async Task<IEnumerable<AuthorBooksDTO>> GetAllAuthorsWithBooksAsync(string authorName = null, string bookName = null)
+        public async Task<IEnumerable<AuthorBooksDTO>> GetAllAuthorsWithBooksAsync(string? authorName, string? bookName)
         {
-            // Start with the base query
             var query = _context.Authors.Include(a => a.Books).AsQueryable();
 
-            // Apply filtering if the 'authorName' parameter is provided
             if (!string.IsNullOrEmpty(authorName))
             {
                 query = query.Where(a => a.Name.ToLower().Contains(authorName.ToLower()));
             }
 
-            // Apply filtering if the 'bookName' parameter is provided
             if (!string.IsNullOrEmpty(bookName))
             {
                 query = query.Where(a => a.Books.Any(b => b.Title.ToLower().Contains(bookName.ToLower())));
             }
 
-            // Execute the query and get the results
             var authors = await query.ToListAsync();
 
             // Map the results to DTOs

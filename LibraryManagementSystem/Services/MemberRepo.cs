@@ -1,6 +1,8 @@
 ﻿using LibraryManagementSystem.DataBaseConnection;
 using LibraryManagementSystem.Models;
 using LibraryManagementSystem.Shared;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace LibraryManagementSystem.Services
 {
@@ -39,10 +41,16 @@ namespace LibraryManagementSystem.Services
         //working
         public IQueryable<MemberDTO> GetAll()
         {
-            return _context.Members.Select(a => new MemberDTO { Id = a.Id,
-                FirstName = a.FirstName, LastName = a.LastName,
-                Email= a.Email,PhoneNumber= a.PhoneNumber});
+            return _context.Members.Select(a => new MemberDTO
+            {
+                Id = a.Id,
+                FirstName = a.FirstName,
+                LastName = a.LastName,
+                Email = a.Email,
+                PhoneNumber = a.PhoneNumber
+            });
         }
+     
         //working
         public async Task<MemberDTO> GetByIdAsync(int id)
         {

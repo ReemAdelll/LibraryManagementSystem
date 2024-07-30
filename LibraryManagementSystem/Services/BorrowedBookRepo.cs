@@ -1,6 +1,8 @@
 ﻿using LibraryManagementSystem.DataBaseConnection;
 using LibraryManagementSystem.Models;
 using LibraryManagementSystem.Shared;
+using Microsoft.EntityFrameworkCore;
+using NPOI.SS.Formula.Functions;
 
 namespace LibraryManagementSystem.Services
 {
@@ -43,8 +45,45 @@ namespace LibraryManagementSystem.Services
             , Id = a.Id, BorrowDate= a.BorrowDate, ReturnDate= a.ReturnDate});
 
         }
+        //to get with filter
+        public async Task<IEnumerable<BorrowedBookBooksDTO>> GetAllWithFilter(DateTime? startDate = null, DateTime? endDate = null)
+        {
+            var query = _context.BorrowedBooks
+                .Include(bb => bb.Book)
+                .AsQueryable();
 
-        public  async Task<BorrowedBookDTO> GetByIdAsync(int id)
+            if (startDate.HasValue)
+            {
+                query = query.Where(bb => bb.BorrowDate >= startDate.Value);
+            }
+
+            if (endDate.HasValue)
+            {
+                query = query.Where(bb => bb.BorrowDate <= endDate.Value);
+            }
+
+            var borrowedBooks = await query
+                .Select(bb => new BorrowedBookBooksDTO
+                {
+                    Id = bb.Id,
+                    BorrowDate = bb.BorrowDate,
+                    ReturnDate = bb.ReturnDate,
+                    Books = new List<BookDTO> 
+                    {
+                new BookDTO
+                {
+                    //Id = bb.Book.Id,
+                    Title = bb.Book.Title,
+                    PublishedYear = bb.Book.PublishedYear
+                }
+                    }
+                }).ToListAsync();
+
+            return borrowedBooks;
+        }
+
+
+        public async Task<BorrowedBookDTO> GetByIdAsync(int id)
         {
             var BorrowedBook = await _context.BorrowedBooks.FindAsync(id);
             if (BorrowedBook == null) return null;

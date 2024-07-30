@@ -3,6 +3,7 @@ using LibraryManagementSystem.Repositories;
 using LibraryManagementSystem.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagementSystem.Controllers
 {
@@ -34,11 +35,28 @@ namespace LibraryManagementSystem.Controllers
             };
         }
 
+        //old get without filter
+        //[HttpGet]
+        //public IQueryable<MemberDTO> GetAll()
+        //{
+        //    return _unitOfWork.Members.GetAll();
+        //}
+
+
+        //new get with filter
         [HttpGet]
-        public IQueryable<MemberDTO> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] string? firstName, [FromQuery] string? lastName)
         {
-            return _unitOfWork.Members.GetAll();
+            var membrquery = _unitOfWork.Members.GetAll();
+            if(!string.IsNullOrEmpty(firstName) && !string.IsNullOrEmpty(lastName))
+            {
+                membrquery = membrquery.Where(a=>a.FirstName.ToLower().Contains(firstName.ToLower()));
+            }
+            var members = await membrquery.ToListAsync();
+            return Ok(members);
         }
+
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetMemberById(int id)

@@ -2,6 +2,7 @@
 using LibraryManagementSystem.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using LibraryManagementSystem.Shared;
+using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagementSystem.Controllers
 {
@@ -40,22 +41,40 @@ namespace LibraryManagementSystem.Controllers
             };
         }
 
-        //working
-        //[HttpGet]
-        //public async Task<IActionResult> GetAllBooks()
-        //{
-        //	var books = await _unitOfWork.Books.GetAllAsync();
-        //	return Ok(books);
-        //}
-
-        //working
-        [HttpGet]
-		public IQueryable<BookDTO> GetAll()
-		{
-			return _unitOfWork.Books.GetAll();
-		}
 		//working
-		[HttpGet("{id}")]
+		//[HttpGet]
+		//public async Task<IActionResult> GetAllBooks()
+		//{
+		//	var books = await _unitOfWork.Books.GetAllAsync();
+		//	return Ok(books);
+		//}
+
+		//old get without filter
+		//working
+		//      [HttpGet]
+		//public IQueryable<BookDTO> GetAll()
+		//{
+		//	return _unitOfWork.Books.GetAll();
+		//}
+
+		//new get with filter
+		[HttpGet]
+		public async Task<IActionResult> GetAll([FromQuery] string?title)
+		{ 
+			var booksQuery = _unitOfWork.Books.GetAll();
+			if(!string.IsNullOrEmpty(title))
+			{
+				booksQuery = booksQuery.Where(a => a.Title.ToLower().Contains(title.ToLower()));
+
+            }
+			var books = await booksQuery.ToListAsync();
+			return Ok(books);
+
+        }
+
+
+            //working
+            [HttpGet("{id}")]
 		public async Task<IActionResult> GetBookById(int id)
 		{
 			var book = await _unitOfWork.Books.GetByIdAsync(id);
