@@ -45,7 +45,7 @@ namespace LibraryManagementSystem.Controllers
 
         //new get with filter
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] string? firstName, [FromQuery] string? lastName, [FromQuery] string? sortOrder)
+        public async Task<IActionResult> GetAll([FromQuery] string? firstName, [FromQuery] string? lastName, [FromQuery] string? sortOrder, [FromQuery] int page = 1, [FromQuery] int pagesize=10)
         {
             var membrquery = _unitOfWork.Members.GetAll();
             if(!string.IsNullOrEmpty(firstName) && !string.IsNullOrEmpty(lastName))
@@ -59,7 +59,23 @@ namespace LibraryManagementSystem.Controllers
                     : membrquery.OrderBy(a => a.FirstName);
             }
             var members = await membrquery.ToListAsync();
-            return Ok(members);
+    
+            var totalcount = await membrquery.CountAsync();
+            var totalpages = (int)Math.Ceiling((double)totalcount / pagesize);
+            var memb = await membrquery
+                .Skip((page - 1) * pagesize)
+                .Take(pagesize)
+                .ToListAsync();
+
+            var response = new
+            {
+                TotalCount = totalcount,
+                TotalPages = totalpages,
+                CurrentPage = page,
+                PageSize = pagesize,
+                Members = members
+            };
+            return Ok(response);
         }
 
 

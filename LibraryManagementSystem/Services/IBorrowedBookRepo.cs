@@ -1,5 +1,6 @@
 ﻿using LibraryManagementSystem.Repositories;
 using LibraryManagementSystem.Shared;
+using Microsoft.AspNetCore.Mvc;
 using NPOI.SS.Formula.Functions;
 
 namespace LibraryManagementSystem.Services
@@ -7,6 +8,6 @@ namespace LibraryManagementSystem.Services
     public interface IBorrowedBookRepo : IBaseRepo<BorrowedBookDTO>
     {
         //specific operations for BorrowedBook
-        Task<IEnumerable<BorrowedBookBooksDTO>> GetAllWithFilter(DateTime? startDate = null, DateTime? endDate = null, string? sortOrder = null);
+        Task<IEnumerable<BorrowedBookBooksDTO>> GetAllWithFilter(DateTime? startDate = null, DateTime? endDate = null, string? sortOrder = null, [FromQuery] int page = 1, [FromQuery] int pageSize = 10);
     }
 }

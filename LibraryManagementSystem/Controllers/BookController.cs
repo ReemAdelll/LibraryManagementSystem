@@ -60,7 +60,7 @@ namespace LibraryManagementSystem.Controllers
 
 		//new get with filter
 		[HttpGet]
-		public async Task<IActionResult> GetAll([FromQuery] string? title, [FromQuery] string? publishyear)
+		public async Task<IActionResult> GetAll([FromQuery] string? title, [FromQuery] string? publishyear, [FromQuery] int page = 1,[FromQuery] int pageSize = 10)
 		{ 
 			var booksQuery = _unitOfWork.Books.GetAll();
 			if(!string.IsNullOrEmpty(title))
@@ -75,10 +75,25 @@ namespace LibraryManagementSystem.Controllers
 			{
                 booksQuery = booksQuery.OrderBy(a => a.PublishedYear);
             }
-			
-			var books = await booksQuery.ToListAsync();
-			return Ok(books);
 
+            var totalCount = await booksQuery.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+
+            var books = await booksQuery
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var response = new
+            {
+                TotalCount = totalCount,
+                TotalPages = totalPages,
+                CurrentPage = page,
+                PageSize = pageSize,
+                Books = books
+            };
+
+            return Ok(response);
         }
 
 

@@ -43,7 +43,7 @@ namespace LibraryManagementSystem.Controllers
 
         //new get (with filter)
         [HttpGet]
-        public async Task <IActionResult> GetAll([FromQuery] string? name, [FromQuery] string? sortOrder)
+        public async Task <IActionResult> GetAll([FromQuery] string? name, [FromQuery] string? sortOrder, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
             var genreQuery = _unitOfWork.Genres.GetAll();
             if(!string.IsNullOrEmpty(name))
@@ -55,7 +55,23 @@ namespace LibraryManagementSystem.Controllers
                 genreQuery = sortOrder.ToLower() == "desc"?genreQuery.OrderByDescending(a => a.GenreName):genreQuery.OrderBy(a => a.GenreName);
             }
             var genres = await genreQuery.ToListAsync();
-            return Ok(genres);
+            var totalCount = await genreQuery.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+
+            var gen = await genreQuery
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var response = new
+            {
+                TotalCount = totalCount,
+                TotalPages = totalPages,
+                CurrentPage = page,
+                PageSize = pageSize,
+                Genres = genres
+            };
+            return Ok(response);
         }
 
 

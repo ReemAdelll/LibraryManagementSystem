@@ -59,7 +59,7 @@ namespace LibraryManagementSystem.Controllers
         //new get with filter added
 		//Working
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] string? name,[FromQuery] string? sortOrder)
+        public async Task<IActionResult> GetAll([FromQuery] string? name,[FromQuery] string? sortOrder,[FromQuery] int page = 1,[FromQuery] int pageSize = 10)
         {
             var authorsQuery = _unitOfWork.Authors.GetAll();
 
@@ -77,7 +77,23 @@ namespace LibraryManagementSystem.Controllers
             }
             var authors = await authorsQuery.ToListAsync();
 
-            return Ok(authors);
+            var totalCount = await authorsQuery.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+
+            var auth = await authorsQuery
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var response = new
+            {
+                TotalCount = totalCount,
+                TotalPages = totalPages,
+                CurrentPage = page,
+                PageSize = pageSize,
+                Authors = authors
+            };
+            return Ok(response);
         }
 
 
