@@ -11,9 +11,11 @@ namespace LibraryManagementSystem.Controllers
 	public class AuthorController : Controller
 	{
 		private readonly IUnitOfWork _unitOfWork;
+        private readonly ILogger<AuthorController> _logger;
 
-        public AuthorController(IUnitOfWork unitOfWork)
+        public AuthorController(IUnitOfWork unitOfWork, ILogger<AuthorController> logger)
 		{
+            _logger = logger;
 			_unitOfWork = unitOfWork;
 		}
 
@@ -61,6 +63,7 @@ namespace LibraryManagementSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] string? name,[FromQuery] string? sortOrder,[FromQuery] int page = 1,[FromQuery] int pageSize = 10)
         {
+            _logger.LogInformation("get all authors");
             var authorsQuery = _unitOfWork.Authors.GetAll();
 
             if (!string.IsNullOrEmpty(name))

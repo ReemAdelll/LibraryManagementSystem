@@ -10,6 +10,8 @@ using LibraryManagementSystem.Shared.Validators;
 using Microsoft.AspNetCore.Hosting;
 using LibraryManagementSystem.Middlewares;
 using LibraryManagementSystem.Interceptors;
+using Serilog.Events;
+using Serilog;
 
 namespace LibraryManagementSystem.ExtentionMethods
 
@@ -22,6 +24,21 @@ namespace LibraryManagementSystem.ExtentionMethods
             //1- Regist The DbContext
             services.AddDbContext<LibraryContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("Conn1")).AddInterceptors(new AuditDataInterceptor()));
+
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+               .WriteTo.MSSqlServer(
+                   connectionString: configuration.GetSection("Serilog:ConnectionStrings:LogDatabase").Value,
+                   tableName: configuration.GetSection("Serilog:TableName").Value,
+                   appConfiguration: configuration,
+                   autoCreateSqlTable: true,
+                   columnOptionsSection: configuration.GetSection("Serilog:ColumnOptions"),
+                   schemaName: configuration.GetSection("Serilog:SchemaName").Value)
+               .CreateLogger();
+
 
             //Register The FluentValidation
             //Register "All" Validators In The Same Assembly
