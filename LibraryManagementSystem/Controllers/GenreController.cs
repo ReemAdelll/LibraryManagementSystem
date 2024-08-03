@@ -87,27 +87,34 @@ namespace LibraryManagementSystem.Controllers
 
         //working
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateGenre(int id, [FromBody] GenreDTO GenreDto) 
+        public async Task<IActionResult> UpdateGenre(int id, [FromBody] GenreEditDTO genreEditDTO) 
         {
             if (!ModelState.IsValid)
             return BadRequest(ModelState);
             var existingGenre = await _unitOfWork.Genres.GetByIdAsync(id);
             if (existingGenre == null) return NotFound();
-            GenreDto.Id = id;
-            await _unitOfWork.Genres.UpdateAsync(GenreDto);
+
+            //implicit conversion
+            Genre genre = genreEditDTO;
+
+            genre.Id = id;
+            await _unitOfWork.Genres.UpdateAsync(genre);
             await _unitOfWork.CompleteAsync();
             return NoContent();
         }
 
         //working
         [HttpPost]
-        public async Task<IActionResult>CreateGenre([FromBody] GenreDTO GenreDto)
+        public async Task<IActionResult>CreateGenre([FromBody] GenreCreateDTO genreCreateDTO)
         {
             if (!ModelState.IsValid)
             return BadRequest(ModelState);
-            var genre = await _unitOfWork.Genres.AddAsync(GenreDto);
+
+            // implicit conversion
+            Genre genre = genreCreateDTO;
+            var AddedGenre = await _unitOfWork.Genres.AddAsync(genre);
             await _unitOfWork.CompleteAsync();
-            return CreatedAtAction(nameof(GetGenreById), new { id = genre.Id }, genre);
+            return CreatedAtAction(nameof(GetGenreById), new { id = AddedGenre.Id }, (GenreDTO)AddedGenre);
         }
 
         //working

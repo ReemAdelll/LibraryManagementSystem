@@ -12,13 +12,16 @@ namespace LibraryManagementSystem.Services
         {
             _context = context;
         }
-        public async Task<GenreDTO> AddAsync(GenreDTO genreDTO)
+        public async Task<Genre> AddAsync(Genre entity)
         {
-            var genre = new Genre { Id = genreDTO.Id, GenreName = genreDTO.GenreName };
-            _context.Genres.Add(genre);
+            //var genre = new Genre { Id = genreDTO.Id, GenreName = genreDTO.GenreName };
+            //_context.Genres.Add(genre);
+            //await _context.SaveChangesAsync();
+            //genreDTO.Id = genre.Id;
+            //return genreDTO;
+            _context.Genres.Add(entity);
             await _context.SaveChangesAsync();
-            genreDTO.Id = genre.Id;
-            return genreDTO;
+            return entity;
         }
 
         public async Task<bool> DeleteAsync(int id)
@@ -31,29 +34,36 @@ namespace LibraryManagementSystem.Services
 
         }
 
-        public IQueryable<GenreDTO> GetAll()
+        public IQueryable<Genre> GetAll()
         {
-            return _context.Genres.Select(a=> new GenreDTO { Id = a.Id, GenreName= a.GenreName });
+            return _context.Genres.Select(a=> new Genre { Id = a.Id, GenreName= a.GenreName });
         }
 
-        public async Task<GenreDTO> GetByIdAsync(int id)
+        public async Task<Genre> GetByIdAsync(int id)
         {
             //var genres = await _context.Genres.FirstOrDefaultAsync(a => a.Id == id);
             var genres = await _context.Genres.FindAsync(id);
             if (genres == null) return null;
-            return new GenreDTO { Id= genres.Id, GenreName  = genres.GenreName };
+            return new Genre { Id= genres.Id, GenreName  = genres.GenreName };
         }
 
-        public async Task<GenreDTO> UpdateAsync(GenreDTO genreDTO)
+        public async Task<Genre> UpdateAsync(Genre entity)
         {
-            var genre = await _context.Genres.FindAsync(genreDTO.Id);
-            if (genre == null) return null;
-            genre.Id = genreDTO.Id;
-            genre.GenreName = genreDTO.GenreName;
-            _context.Genres.Update(genre);
-            await _context.SaveChangesAsync();
-            return genreDTO;
+            //var genre = await _context.Genres.FindAsync(genreDTO.Id);
+            //if (genre == null) return null;
+            //genre.Id = genreDTO.Id;
+            //genre.GenreName = genreDTO.GenreName;
+            //_context.Genres.Update(genre);
+            //await _context.SaveChangesAsync();
+            //return genreDTO;
 
+            var existingGenre = await _context.Genres.FindAsync(entity.Id);
+            if (existingGenre == null) return null;
+            existingGenre.Id= entity.Id;
+            existingGenre.GenreName = entity.GenreName;
+            _context.Genres.Update(existingGenre);
+            await _context.SaveChangesAsync();
+            return existingGenre;
         }
     }
 }

@@ -97,8 +97,8 @@ namespace LibraryManagementSystem.Controllers
         }
 
 
-            //working
-            [HttpGet("{id}")]
+        //working
+        [HttpGet("{id}")]
 		public async Task<IActionResult> GetBookById(int id)
 		{
 			var book = await _unitOfWork.Books.GetByIdAsync(id);

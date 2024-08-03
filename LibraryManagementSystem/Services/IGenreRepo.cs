@@ -1,9 +1,10 @@
-﻿using LibraryManagementSystem.Repositories;
+﻿using LibraryManagementSystem.Models;
+using LibraryManagementSystem.Repositories;
 using LibraryManagementSystem.Shared;
 
 namespace LibraryManagementSystem.Services
 {
-    public interface IGenreRepo : IBaseRepo<GenreDTO>
+    public interface IGenreRepo : IBaseRepo<Genre>
     {
         //specific operations for Genre
     }
