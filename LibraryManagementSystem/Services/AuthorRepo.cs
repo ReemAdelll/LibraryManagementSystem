@@ -2,6 +2,7 @@
 using LibraryManagementSystem.Models;
 using Microsoft.EntityFrameworkCore;
 using LibraryManagementSystem.Shared;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagementSystem.Services
 {
@@ -19,10 +20,10 @@ namespace LibraryManagementSystem.Services
 		//	var authors = await _context.Authors.ToListAsync();
 		//	return authors.Select(a => new AuthorDTO { Id = a.Id, Name = a.Name ,Country=a.Country});
 		//}
-		public IQueryable<AuthorDTO> GetAll()
+		public IQueryable<Author> GetAll()
 		{
 			return _context.Authors
-				.Select(a => new AuthorDTO
+				.Select(a => new Author
 				{
 					Id = a.Id,
 					Name = a.Name,
@@ -30,11 +31,11 @@ namespace LibraryManagementSystem.Services
 					
 				});
 		}
-		public async Task<AuthorDTO> GetByIdAsync(int id)
+		public async Task<Author> GetByIdAsync(int id)
 		{
 			var author = await _context.Authors.FindAsync(id);
 			if (author == null) return null;
-			return new AuthorDTO { Id = author.Id, Name = author.Name };
+			return new Author { Id = author.Id, Name = author.Name };
 		}
       
         //special method for author, not from base
@@ -73,25 +74,43 @@ namespace LibraryManagementSystem.Services
 
 
 
-        public async Task<AuthorDTO> AddAsync(AuthorDTO authorDto)
-		{
-			var author = new Author { Name = authorDto.Name, Country= authorDto.Country, Bio= authorDto.Bio };
-			_context.Authors.Add(author);
-			await _context.SaveChangesAsync();
-			authorDto.Id = author.Id;
-			return authorDto;
-		}
+		//public async Task<Author> AddAsync(AuthorCreateDTO authorCreateDTO)
+		//{
+  //          //var author = new Author { Name = AuthorCreateDTO.Name, Country = AuthorCreateDTO.Country, Bio = AuthorCreateDTO.Bio };
+  //          //_context.Authors.Add(author);
+  //          //await _context.SaveChangesAsync();
+  //          //AuthorCreateDTO.Id = author.Id;
+  //          //return author;
 
-		public async Task<AuthorDTO> UpdateAsync(AuthorDTO authorDto)
-		{
-			var author = await _context.Authors.FindAsync(authorDto.Id);
-			if (author == null) return null;
-			author.Name = authorDto.Name;
-			author.Country = authorDto.Country;
-			_context.Authors.Update(author);
-			await _context.SaveChangesAsync();
-			return authorDto;
-		}
+  //          Author author = authorCreateDTO; // Implicit conversion
+  //          _context.Authors.Add(author);
+  //          await _context.SaveChangesAsync();
+  //          authorCreateDTO.Id = author.Id;
+  //          return author;
+  //      }
+
+        //public async Task<Author> UpdateAsync(AuthorEditDTO AuthorEditDto)
+        //{
+        //    //var author = await _context.Authors.FindAsync(authorDto.Id);
+        //    //if (author == null) return null;
+        //    //author.Name = authorDto.Name;
+        //    //author.Country = authorDto.Country;
+        //    //_context.Authors.Update(author);
+        //    //await _context.SaveChangesAsync();
+        //    //return authorDto;
+        //    var author = (Author)AuthorEditDto; //implicit conversion
+        //    var existingAuthor = await _context.Authors.FindAsync(author.Id);
+        //    if (existingAuthor == null) return null;
+
+        //    // Update existing author fields
+        //    existingAuthor.Name = author.Name;
+        //    existingAuthor.Country = author.Country;
+
+        //    _context.Authors.Update(existingAuthor);
+        //    await _context.SaveChangesAsync();
+
+        //    return existingAuthor;
+        //}
 
 		public async Task<bool> DeleteAsync(int id)
 		{
@@ -101,5 +120,26 @@ namespace LibraryManagementSystem.Services
 			await _context.SaveChangesAsync();
 			return true;
 		}
-	}
+
+        public async Task<Author> AddAsync(Author entity)
+        {
+            _context.Authors.Add(entity);
+            await _context.SaveChangesAsync();
+            return entity;
+        }
+
+        public async Task<Author> UpdateAsync(Author entity)
+        {
+            var existingAuthor = await _context.Authors.FindAsync(entity.Id);
+            if (existingAuthor == null) return null;
+
+            existingAuthor.Name = entity.Name;
+            existingAuthor.Country = entity.Country;
+
+            _context.Authors.Update(existingAuthor);
+            await _context.SaveChangesAsync();
+
+            return existingAuthor;
+        }
+    }
 }

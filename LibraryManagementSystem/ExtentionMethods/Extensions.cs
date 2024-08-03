@@ -12,6 +12,7 @@ using LibraryManagementSystem.Middlewares;
 using LibraryManagementSystem.Interceptors;
 using Serilog.Events;
 using Serilog;
+//using Serilog.UI.MsSqlServerProvider;
 
 namespace LibraryManagementSystem.ExtentionMethods
 
@@ -115,6 +116,7 @@ namespace LibraryManagementSystem.ExtentionMethods
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
+            //app.UseSerilogUi();
             app.UseEndpoints(endpoints =>
              {
                  endpoints.MapControllers();
