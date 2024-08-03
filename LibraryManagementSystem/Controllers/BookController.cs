@@ -108,19 +108,21 @@ namespace LibraryManagementSystem.Controllers
 		}
 		//working
 		[HttpPost]
-		public async Task<IActionResult> CreateBook([FromBody] BookDTO bookDto)
+		public async Task<IActionResult> CreateBook([FromBody] BookCreateDTO bookCreateDTO)
 		{
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
 
-			var book = await _unitOfWork.Books.AddAsync(bookDto);
+			// implicit conversion
+			Book book = bookCreateDTO;
+            var addedBook = await _unitOfWork.Books.AddAsync(book);
 			await _unitOfWork.CompleteAsync();
 
-			return CreatedAtAction(nameof(GetBookById), new { id = book.Id }, book);
+			return CreatedAtAction(nameof(GetBookById), new { id = addedBook.Id }, (BookDTO)addedBook);
 		}
 		//working
 		[HttpPut("{id}")]
-		public async Task<IActionResult> UpdateBook(int id, [FromBody] BookDTO bookDto)
+		public async Task<IActionResult> UpdateBook(int id, [FromBody] BookEditDTO bookEditDTO)
 		{
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
@@ -128,8 +130,11 @@ namespace LibraryManagementSystem.Controllers
 			var existingBook = await _unitOfWork.Books.GetByIdAsync(id);
 			if (existingBook == null) return NotFound();
 
-			bookDto.Id = id;
-			await _unitOfWork.Books.UpdateAsync(bookDto);
+			//implicit conversion
+			Book book = bookEditDTO;
+
+            book.Id = id;
+            var updatedAuthor = await _unitOfWork.Books.UpdateAsync(book);
 			await _unitOfWork.CompleteAsync();
 
 			return NoContent();

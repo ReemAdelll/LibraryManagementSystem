@@ -19,9 +19,9 @@ namespace LibraryManagementSystem.Services
 		//	var books = await _context.Books.ToListAsync();
 		//	return books.Select(b => new BookDTO { Id = b.Id, Title = b.Title });
 		//}
-		public IQueryable<BookDTO> GetAll()
+		public IQueryable<Book> GetAll()
 		{
-			return _context.Books.Select(b => new BookDTO
+			return _context.Books.Select(b => new Book
 			{
 				Id = b.Id,
 				Title = b.Title,
@@ -30,33 +30,47 @@ namespace LibraryManagementSystem.Services
 			}); ;
 		}
 
-		public async Task<BookDTO> GetByIdAsync(int id)
+		public async Task<Book> GetByIdAsync(int id)
 		{
 			var book = await _context.Books.FindAsync(id);
 			if (book == null) return null;
-			return new BookDTO { Id = book.Id, Title = book.Title, AuthorId=book.AuthorId , PublishedYear= book.PublishedYear};
+			return new Book { Id = book.Id, Title = book.Title, AuthorId=book.AuthorId , PublishedYear= book.PublishedYear};
 		}
 
 
-		public async Task<BookDTO> AddAsync(BookDTO bookDto)
+		public async Task<Book> AddAsync(Book entity)
 		{
-			var book = new Book { Title = bookDto.Title, AuthorId = bookDto.AuthorId, PublishedYear=bookDto.PublishedYear };
-			_context.Books.Add(book);
-			await _context.SaveChangesAsync();
-			bookDto.Id = book.Id;
-			return bookDto;
-		}
+            //var book = new Book { Title = bookDto.Title, AuthorId = bookDto.AuthorId, PublishedYear=bookDto.PublishedYear };
+            //_context.Books.Add(book);
+            //await _context.SaveChangesAsync();
+            //bookDto.Id = book.Id;
+            //return bookDto;
+            _context.Books.Add(entity);
+            await _context.SaveChangesAsync();
+            return entity;
+        }
 
-		public async Task<BookDTO> UpdateAsync(BookDTO bookDto)
+		public async Task<Book> UpdateAsync(Book entity)
 		{
-			var book = await _context.Books.FindAsync(bookDto.Id);
-			if (book == null) return null;
-			book.Title = bookDto.Title;
-			book.PublishedYear = bookDto.PublishedYear;
-			_context.Books.Update(book);
-			await _context.SaveChangesAsync();
-			return bookDto;
-		}
+			//var book = await _context.Books.FindAsync(bookDto.Id);
+			//if (book == null) return null;
+			//book.Title = bookDto.Title;
+			//book.PublishedYear = bookDto.PublishedYear;
+			//_context.Books.Update(book);
+			//await _context.SaveChangesAsync();
+			//return bookDto;
+
+			var existingBook = await _context.Books.FindAsync(entity.Id);
+            if (existingBook == null) return null;
+
+            existingBook.Title = entity.Title;
+            existingBook.PublishedYear = entity.PublishedYear;
+
+            _context.Books.Update(existingBook);
+            await _context.SaveChangesAsync();
+
+            return existingBook;
+        }
 
 		public async Task<bool> DeleteAsync(int id)
 		{
