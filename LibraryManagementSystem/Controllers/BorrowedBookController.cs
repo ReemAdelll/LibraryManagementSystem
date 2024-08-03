@@ -40,7 +40,7 @@ namespace LibraryManagementSystem.Controllers
         }
         //working
         [HttpGet]
-        public IQueryable<BorrowedBookDTO> GetAll()
+        public IQueryable<BorrowedBook> GetAll()
         {
             return _unitOfWork.borrowedBooks.GetAll();
         }
@@ -63,7 +63,7 @@ namespace LibraryManagementSystem.Controllers
         }
         //working
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateBorrowedBook(int id, [FromBody] BorrowedBookDTO BorrowedBookDto)
+        public async Task<IActionResult> UpdateBorrowedBook(int id, [FromBody] BorrowedBookEditDTO BorrowedBookEditDTO)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -71,23 +71,29 @@ namespace LibraryManagementSystem.Controllers
             var existingBorrowedBook = await _unitOfWork.borrowedBooks.GetByIdAsync(id);
             if (existingBorrowedBook == null) return NotFound();
 
-            BorrowedBookDto.Id = id;
-            await _unitOfWork.borrowedBooks.UpdateAsync(BorrowedBookDto);
+            //implicit conversion
+            BorrowedBook borrowedBook = BorrowedBookEditDTO;
+
+            borrowedBook.Id = id;
+            await _unitOfWork.borrowedBooks.UpdateAsync(borrowedBook);
             await _unitOfWork.CompleteAsync();
 
             return NoContent();
         }
         //working
         [HttpPost]
-        public async Task<IActionResult> CreateBorrowedBook([FromBody] BorrowedBookDTO BorrowedBookDto)
+        public async Task<IActionResult> CreateBorrowedBook([FromBody] BorrowedBookCreateDTO borrowedBookCreateDTO)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var borrowedBook = await _unitOfWork.borrowedBooks.AddAsync(BorrowedBookDto);
+            // implicit conversion
+            BorrowedBook borrowedBook = borrowedBookCreateDTO;
+
+            var borrowedBOOK = await _unitOfWork.borrowedBooks.AddAsync(borrowedBook);
             await _unitOfWork.CompleteAsync();
 
-            return CreatedAtAction(nameof(GetBorrowedBookById), new { id = borrowedBook.Id }, borrowedBook);
+            return CreatedAtAction(nameof(GetBorrowedBookById), new { id = borrowedBOOK.Id }, (BorrowedBook)borrowedBOOK);
         }
         //working
         [HttpDelete("{id}")]
