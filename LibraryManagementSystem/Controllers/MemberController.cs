@@ -19,39 +19,90 @@ namespace LibraryManagementSystem.Controllers
         }
 
         //new get with filter
+        //[HttpGet]
+        //public async Task<IActionResult> GetAll([FromQuery] string? firstName, [FromQuery] string? lastName, [FromQuery] string? sortOrder, [FromQuery] int page = 1, [FromQuery] int pagesize=10)
+        //{
+        //    var membrquery = _unitOfWork.Members.GetAll();
+        //    if (!string.IsNullOrEmpty(firstName) || !string.IsNullOrEmpty(lastName))
+        //    {
+        //        // membrquery = membrquery.Where(a => a.FirstName.ToLower().Contains(firstName.ToLower()));
+        //        membrquery = membrquery.Where(a =>
+        //    (string.IsNullOrEmpty(firstName) || a.FirstName.ToLower().Contains(firstName.ToLower())) &&
+        //    (string.IsNullOrEmpty(lastName) || a.LastName.ToLower().Contains(lastName.ToLower())));
+        //    }
+
+        //    if (!string.IsNullOrEmpty(sortOrder))
+        //    {
+        //        membrquery = sortOrder.ToLower() == "desc"
+        //            ? membrquery.OrderByDescending(a => a.FirstName)
+        //            : membrquery.OrderBy(a => a.FirstName);
+        //    }
+        //    var members = await membrquery.ToListAsync();
+
+        //    var totalcount = await membrquery.CountAsync();
+        //    var totalpages = (int)Math.Ceiling((double)totalcount / pagesize);
+        //    var memb = await membrquery
+        //        .Skip((page - 1) * pagesize)
+        //        .Take(pagesize)
+        //        .ToListAsync();
+
+        //    var response = new
+        //    {
+        //        TotalCount = totalcount,
+        //        TotalPages = totalpages,
+        //        CurrentPage = page,
+        //        PageSize = pagesize,
+        //        Members = members
+        //    };
+        //    return Ok(response);
+        //}
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] string? firstName, [FromQuery] string? lastName, [FromQuery] string? sortOrder, [FromQuery] int page = 1, [FromQuery] int pagesize=10)
+        public async Task<IActionResult> GetAll(
+    [FromQuery] string? firstName,
+    [FromQuery] string? lastName,
+    [FromQuery] string? sortOrder,
+    [FromQuery] int page = 1,
+    [FromQuery] int pageSize = 10)
         {
-            var membrquery = _unitOfWork.Members.GetAll();
-            if(!string.IsNullOrEmpty(firstName) && !string.IsNullOrEmpty(lastName))
+            var memberQuery = _unitOfWork.Members.GetAll();
+
+            // Apply filtering based on firstName and lastName
+            if (!string.IsNullOrEmpty(firstName) || !string.IsNullOrEmpty(lastName))
             {
-                membrquery = membrquery.Where(a=>a.FirstName.ToLower().Contains(firstName.ToLower()));
+                memberQuery = memberQuery.Where(a =>
+                    (string.IsNullOrEmpty(firstName) || a.FirstName.ToLower().Contains(firstName.ToLower())) &&
+                    (string.IsNullOrEmpty(lastName) || a.LastName.ToLower().Contains(lastName.ToLower())));
             }
+
+            // Apply sorting
             if (!string.IsNullOrEmpty(sortOrder))
             {
-                membrquery = sortOrder.ToLower() == "desc"
-                    ? membrquery.OrderByDescending(a => a.FirstName)
-                    : membrquery.OrderBy(a => a.FirstName);
+                memberQuery = sortOrder.ToLower() == "desc"
+                    ? memberQuery.OrderByDescending(a => a.FirstName)
+                    : memberQuery.OrderBy(a => a.FirstName);
             }
-            var members = await membrquery.ToListAsync();
-    
-            var totalcount = await membrquery.CountAsync();
-            var totalpages = (int)Math.Ceiling((double)totalcount / pagesize);
-            var memb = await membrquery
-                .Skip((page - 1) * pagesize)
-                .Take(pagesize)
+
+            // Calculate pagination
+            var totalCount = await memberQuery.CountAsync();
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            var members = await memberQuery
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
 
+            // Create the response
             var response = new
             {
-                TotalCount = totalcount,
-                TotalPages = totalpages,
+                TotalCount = totalCount,
+                TotalPages = totalPages,
                 CurrentPage = page,
-                PageSize = pagesize,
+                PageSize = pageSize,
                 Members = members
             };
+
             return Ok(response);
         }
+
 
 
 
