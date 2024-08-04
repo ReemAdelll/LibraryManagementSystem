@@ -14,11 +14,6 @@ namespace LibraryManagementSystem.Services
 			_context = context;
 		}
 
-		//public async Task<IEnumerable<BookDTO>> GetAllAsync()
-		//{
-		//	var books = await _context.Books.ToListAsync();
-		//	return books.Select(b => new BookDTO { Id = b.Id, Title = b.Title });
-		//}
 		public IQueryable<Book> GetAll()
 		{
 			return _context.Books.Select(b => new Book
@@ -38,7 +33,6 @@ namespace LibraryManagementSystem.Services
 			if (book == null) return null;
 			return new Book { Id = book.Id, Title = book.Title, AuthorId=book.AuthorId , PublishedYear= book.PublishedYear, CreationTime = book.CreationTime , LastUpdateTime= book.LastUpdateTime};
 		}
-
 
 		public async Task<Book> AddAsync(Book entity)
 		{

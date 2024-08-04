@@ -15,30 +15,7 @@ namespace LibraryManagementSystem.Controllers
         {
             _unitOfWork = unitOfWork;
         }
-        private BorrowedBook MapToBorrowedBook(BorrowedBookDTO borrowedBookDTO)
-        {
-            return new BorrowedBook
-            {
-                Id = borrowedBookDTO.Id,
-                MemberId = borrowedBookDTO.MemberId
-            ,
-                BookId = borrowedBookDTO.BookId,
-                BorrowDate = borrowedBookDTO.BorrowDate,
-                ReturnDate = borrowedBookDTO.ReturnDate,
-
-            };
-        }
-        private BorrowedBookDTO MapToBorrowedBookDTO(BorrowedBook borrowedBook)
-        { return new BorrowedBookDTO {
-            Id = borrowedBook.Id,
-            MemberId = borrowedBook.MemberId
-            ,
-            BookId = borrowedBook.BookId,
-            BorrowDate = borrowedBook.BorrowDate,
-            ReturnDate = borrowedBook.ReturnDate,
-        }; 
-        }
-        //working
+        
         [HttpGet]
         public IQueryable<BorrowedBook> GetAll()
         {
@@ -52,8 +29,6 @@ namespace LibraryManagementSystem.Controllers
             return Ok(borrowedBooks);
         }
 
-
-        //working
         [HttpGet("{id}")]
         public async Task<IActionResult> GetBorrowedBookById(int id)
         {
@@ -61,7 +36,7 @@ namespace LibraryManagementSystem.Controllers
             if (BorrowedBook == null) return NotFound();
             return Ok(BorrowedBook);
         }
-        //working
+        
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateBorrowedBook(int id, [FromBody] BorrowedBookEditDTO BorrowedBookEditDTO)
         {
@@ -80,7 +55,7 @@ namespace LibraryManagementSystem.Controllers
 
             return NoContent();
         }
-        //working
+        
         [HttpPost]
         public async Task<IActionResult> CreateBorrowedBook([FromBody] BorrowedBookCreateDTO borrowedBookCreateDTO)
         {
@@ -95,7 +70,7 @@ namespace LibraryManagementSystem.Controllers
 
             return CreatedAtAction(nameof(GetBorrowedBookById), new { id = borrowedBOOK.Id }, (BorrowedBook)borrowedBOOK);
         }
-        //working
+        
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBorrowedBook(int id)
         {

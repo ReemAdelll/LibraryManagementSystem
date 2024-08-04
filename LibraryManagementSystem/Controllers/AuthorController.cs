@@ -19,47 +19,6 @@ namespace LibraryManagementSystem.Controllers
 			_unitOfWork = unitOfWork;
 		}
 
-		private Author MapToAuthor(AuthorDTO authorDto)
-		{
-			return new Author
-			{
-                Id = authorDto.Id,
-				Name = authorDto.Name,
-				Country = authorDto.Country,
-				Bio = authorDto.Bio,
-                //CreationTime = DateTime.Now,
-                //LastUpdateTime = DateTime.Now
-            };
-		}
-		private AuthorDTO MapToAuthorDTO(Author author)
-		{
-			return new AuthorDTO
-			{
-				Id = author.Id,
-				Name = author.Name,
-				Country = author.Country,
-				Bio = author.Bio
-			};
-		}
-
-        //working
-        //[HttpGet]
-        //public async Task<IActionResult> GetAllAuthors()
-        //{
-        //	var authors = await _unitOfWork.Authors.GetAllAsync();
-        //	return Ok(authors);
-        //}
-
-        //working
-        //old get without filter
-        //[HttpGet]
-        //public IQueryable<AuthorDTO> GetAll()
-        //{
-        //   return _unitOfWork.Authors.GetAll();
-        //}
-
-        //new get with filter added
-		//Working
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] string? name,[FromQuery] string? sortOrder,[FromQuery] int page = 1,[FromQuery] int pageSize = 10)
         {
@@ -99,9 +58,6 @@ namespace LibraryManagementSystem.Controllers
             return Ok(response);
         }
 
-
-
-        //working
         [HttpGet("{id}")]
 		public async Task<IActionResult> GetAuthorById(int id)
 		{
@@ -110,7 +66,6 @@ namespace LibraryManagementSystem.Controllers
 			return Ok(author);
 		}
 
-        //working
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAuthor(int id, [FromBody] AuthorEditDTO authorEditDto)
         {
@@ -141,7 +96,6 @@ namespace LibraryManagementSystem.Controllers
             return CreatedAtAction(nameof(GetAuthorById), new { id = addedAuthor.Id }, (AuthorDTO)addedAuthor);
         }
 
-        //working
         [HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteAuthor(int id)
 		{
@@ -152,7 +106,6 @@ namespace LibraryManagementSystem.Controllers
 			return NoContent();
 		}
 
-        //working
         [HttpGet("authors")]
         public async Task<IActionResult> GetAllAuthorsWithBooks([FromQuery] string? authorName, [FromQuery] string? bookName)
         {
@@ -160,7 +113,6 @@ namespace LibraryManagementSystem.Controllers
             //implicit operator
             var authorsWithBooks = authors.Select(author => (AuthorBooksDTO)author);
             return Ok(authorsWithBooks);
-            //return Ok(authors);
         }
     }
 }

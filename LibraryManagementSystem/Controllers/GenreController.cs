@@ -21,27 +21,8 @@ namespace LibraryManagementSystem.Controllers
         {
             _unitOfWork = unitOfWork;
         }
-        private Genre MapToGenre(GenreDTO genreDTO)
-        {
-            return new Genre
-            {
-                Id = genreDTO.Id, GenreName = genreDTO.GenreName,
-            };
-        }
-        private GenreDTO MapToGenreDTO(Genre genre)
-        {
-            return new GenreDTO { Id = genre.Id, GenreName = genre.GenreName };
-        }
-
-        //working
-        //old get (without filter)
-        //[HttpGet]
-        //public IQueryable<GenreDTO> GetAll()
-        //{
-        //    return _unitOfWork.Genres.GetAll();
-        //}
-
-        //new get (with filter)
+       
+        //get (with filter)
         [HttpGet]
         public async Task <IActionResult> GetAll([FromQuery] string? name, [FromQuery] string? sortOrder, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
@@ -74,18 +55,14 @@ namespace LibraryManagementSystem.Controllers
             return Ok(response);
         }
 
-
-        //working
         [HttpGet("{id}")]
         public async Task<IActionResult> GetGenreById(int id)
         {
             var genre =await _unitOfWork.Genres.GetByIdAsync(id);
             if (genre == null) return NotFound();
             return Ok(genre);
-           
         }
 
-        //working
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateGenre(int id, [FromBody] GenreEditDTO genreEditDTO) 
         {
@@ -103,7 +80,6 @@ namespace LibraryManagementSystem.Controllers
             return NoContent();
         }
 
-        //working
         [HttpPost]
         public async Task<IActionResult>CreateGenre([FromBody] GenreCreateDTO genreCreateDTO)
         {
@@ -117,7 +93,6 @@ namespace LibraryManagementSystem.Controllers
             return CreatedAtAction(nameof(GetGenreById), new { id = AddedGenre.Id }, (GenreDTO)AddedGenre);
         }
 
-        //working
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteGenre(int id)
         {

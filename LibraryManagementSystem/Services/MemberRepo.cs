@@ -13,14 +13,14 @@ namespace LibraryManagementSystem.Services
         {
             _context = context;
         }
-        //working
+        
         public async Task<Member> AddAsync(Member entity)
         {
             _context.Members.Add(entity);
             await _context.SaveChangesAsync();
             return entity;
         }
-        //working
+        
         public async Task<bool> DeleteAsync(int id)
         {
             var member = await _context.Members.FindAsync(id);
@@ -29,7 +29,6 @@ namespace LibraryManagementSystem.Services
             await _context.SaveChangesAsync();
             return true;
         }
-        //working
         public IQueryable<Member> GetAll()
         {
             return _context.Members.Select(a => new Member
@@ -44,7 +43,6 @@ namespace LibraryManagementSystem.Services
             });
         }
      
-        //working
         public async Task<Member> GetByIdAsync(int id)
         {
             var member =  await _context.Members.FindAsync(id);
@@ -60,7 +58,6 @@ namespace LibraryManagementSystem.Services
                 LastUpdateTime = member.LastUpdateTime,
             };
         }
-        //working
         public async Task<Member> UpdateAsync(Member entity)
         {
             var existingMember = await _context.Members.FindAsync(entity.Id);

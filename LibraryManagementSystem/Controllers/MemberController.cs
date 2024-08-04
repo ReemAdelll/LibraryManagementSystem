@@ -18,31 +18,6 @@ namespace LibraryManagementSystem.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        private Member MapToMember(MemberDTO memberDto) 
-        {
-        return new Member { Id = memberDto.Id, FirstName= memberDto.FirstName,
-            LastName= memberDto.LastName, Email=memberDto.Email, PhoneNumber= memberDto.PhoneNumber };
-        }
-        private MemberDTO MapToMemberDTO( MemberDTO memberDto)
-        {
-            return new MemberDTO
-            {
-                Id = memberDto.Id,
-                FirstName = memberDto.FirstName,
-                LastName = memberDto.LastName,
-                Email = memberDto.Email,
-                PhoneNumber = memberDto.PhoneNumber
-            };
-        }
-
-        //old get without filter
-        //[HttpGet]
-        //public IQueryable<MemberDTO> GetAll()
-        //{
-        //    return _unitOfWork.Members.GetAll();
-        //}
-
-
         //new get with filter
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] string? firstName, [FromQuery] string? lastName, [FromQuery] string? sortOrder, [FromQuery] int page = 1, [FromQuery] int pagesize=10)

@@ -18,46 +18,6 @@ namespace LibraryManagementSystem.Controllers
 			_unitOfWork = unitOfWork;
 		}
 
-        private Book MapToBook(BookDTO bookDto)
-        {
-            return new Book
-            {
-                Id = bookDto.Id,
-                Title = bookDto.Title,
-                AuthorId = bookDto.AuthorId,
-                PublishedYear = bookDto.PublishedYear,
-                //Creation_Time = DateTime.Now,
-                //LastUpdate_Time = DateTime.Now
-            };
-        }
-
-        private BookDTO MapToBookDTO(Book book)
-        {
-            return new BookDTO
-            {
-                Id = book.Id,
-                Title = book.Title,
-                AuthorId = book.AuthorId,
-                PublishedYear = book.PublishedYear
-            };
-        }
-
-		//working
-		//[HttpGet]
-		//public async Task<IActionResult> GetAllBooks()
-		//{
-		//	var books = await _unitOfWork.Books.GetAllAsync();
-		//	return Ok(books);
-		//}
-
-		//old get without filter
-		//working
-		//      [HttpGet]
-		//public IQueryable<BookDTO> GetAll()
-		//{
-		//	return _unitOfWork.Books.GetAll();
-		//}
-
 		//new get with filter
 		[HttpGet]
 		public async Task<IActionResult> GetAll([FromQuery] string? title, [FromQuery] string? publishyear, [FromQuery] int page = 1,[FromQuery] int pageSize = 10)
@@ -96,8 +56,6 @@ namespace LibraryManagementSystem.Controllers
             return Ok(response);
         }
 
-
-        //working
         [HttpGet("{id}")]
 		public async Task<IActionResult> GetBookById(int id)
 		{
@@ -106,7 +64,7 @@ namespace LibraryManagementSystem.Controllers
 			return Ok(book);
 
 		}
-		//working
+
 		[HttpPost]
 		public async Task<IActionResult> CreateBook([FromBody] BookCreateDTO bookCreateDTO)
 		{
@@ -120,7 +78,7 @@ namespace LibraryManagementSystem.Controllers
 
 			return CreatedAtAction(nameof(GetBookById), new { id = addedBook.Id }, (BookDTO)addedBook);
 		}
-		//working
+		
 		[HttpPut("{id}")]
 		public async Task<IActionResult> UpdateBook(int id, [FromBody] BookEditDTO bookEditDTO)
 		{
@@ -139,7 +97,7 @@ namespace LibraryManagementSystem.Controllers
 
 			return NoContent();
 		}
-		//working
+		
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteBook(int id)
 		{
@@ -149,6 +107,5 @@ namespace LibraryManagementSystem.Controllers
 			await _unitOfWork.CompleteAsync();
 			return NoContent();
 		}
-
 	}
 }

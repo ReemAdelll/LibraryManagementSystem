@@ -15,11 +15,6 @@ namespace LibraryManagementSystem.Services
 			_context = context;
 		}
 
-		//public async Task<IEnumerable<AuthorDTO>> GetAllAsync()
-		//{
-		//	var authors = await _context.Authors.ToListAsync();
-		//	return authors.Select(a => new AuthorDTO { Id = a.Id, Name = a.Name ,Country=a.Country});
-		//}
 		public IQueryable<Author> GetAll()
 		{
 			return _context.Authors
