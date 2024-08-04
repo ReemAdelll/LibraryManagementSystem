@@ -41,7 +41,7 @@ namespace LibraryManagementSystem.Services
       
         //special method for author, not from base
         //authors with their books (With filtering)
-        public async Task<IEnumerable<AuthorBooksDTO>> GetAllAuthorsWithBooksAsync(string? authorName, string? bookName)
+        public async Task<IEnumerable<Author>> GetAllAuthorsWithBooksAsync(string? authorName, string? bookName)
         {
             var query = _context.Authors.Include(a => a.Books).AsQueryable();
 
@@ -55,22 +55,7 @@ namespace LibraryManagementSystem.Services
                 query = query.Where(a => a.Books.Any(b => b.Title.ToLower().Contains(bookName.ToLower())));
             }
 
-            var authors = await query.ToListAsync();
-
-            // Map the results to DTOs
-            return authors.Select(a => new AuthorBooksDTO
-            {
-                Id = a.Id,
-                Name = a.Name,
-                Country = a.Country,
-                Books = a.Books.Select(b => new BookDTO
-                {
-                    Id = b.Id,
-                    Title = b.Title,
-                    PublishedYear = b.PublishedYear,
-                    AuthorId = b.AuthorId
-                }).ToList()
-            });
+            return await query.ToListAsync();
         }
 
 		public async Task<bool> DeleteAsync(int id)

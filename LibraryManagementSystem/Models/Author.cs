@@ -24,6 +24,21 @@ namespace LibraryManagementSystem.Models
             };
         }
 
+        public static implicit operator AuthorBooksDTO(Author author)
+        {
+            return new AuthorBooksDTO
+            {
+                Id = author.Id,
+                Name = author.Name,
+                Country = author.Country,
+                Bio = author.Bio,
+                CreationTime = author.CreationTime,
+                LastUpdateTime = author.LastUpdateTime,
+                Books = author.Books?.Select(book => (BookDTO)book).ToList()
+            };
+        }
+
+
         public static implicit operator Author(AuthorCreateDTO authorCreateDTO)
         {
             return new Author

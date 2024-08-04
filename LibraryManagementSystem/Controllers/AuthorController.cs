@@ -157,7 +157,10 @@ namespace LibraryManagementSystem.Controllers
         public async Task<IActionResult> GetAllAuthorsWithBooks([FromQuery] string? authorName, [FromQuery] string? bookName)
         {
             var authors = await _unitOfWork.Authors.GetAllAuthorsWithBooksAsync(authorName, bookName);
-            return Ok(authors);
+            //implicit operator
+            var authorsWithBooks = authors.Select(author => (AuthorBooksDTO)author);
+            return Ok(authorsWithBooks);
+            //return Ok(authors);
         }
     }
 }

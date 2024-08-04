@@ -8,7 +8,7 @@ namespace LibraryManagementSystem.Services
 	public interface IAuthorRepo : IBaseRepo<Author>
 	{
 		//specific operations for Author
-		Task<IEnumerable<AuthorBooksDTO>> GetAllAuthorsWithBooksAsync(string authorName,string bookName);
+		Task<IEnumerable<Author>> GetAllAuthorsWithBooksAsync(string authorName,string bookName);
 		
 	}
 }
