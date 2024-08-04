@@ -14,20 +14,23 @@ namespace LibraryManagementSystem.Services
             _context = context;
         }
         //working
-        public async Task<MemberDTO> AddAsync(MemberDTO memberDTO)
+        public async Task<Member> AddAsync(Member entity)
         {
-            var member = new Member
-            {
-                Id = memberDTO.Id,
-                FirstName = memberDTO.FirstName,
-                LastName = memberDTO.LastName,
-                Email = memberDTO.Email,
-                PhoneNumber = memberDTO.PhoneNumber
-            };
-            _context.Members.Add(member);
+            //var member = new Member
+            //{
+            //    Id = memberDTO.Id,
+            //    FirstName = memberDTO.FirstName,
+            //    LastName = memberDTO.LastName,
+            //    Email = memberDTO.Email,
+            //    PhoneNumber = memberDTO.PhoneNumber
+            //};
+            //_context.Members.Add(member);
+            //await _context.SaveChangesAsync();
+            //memberDTO.Id = member.Id;
+            //return memberDTO;
+            _context.Members.Add(entity);
             await _context.SaveChangesAsync();
-            memberDTO.Id = member.Id;
-            return memberDTO;
+            return entity;
         }
         //working
         public async Task<bool> DeleteAsync(int id)
@@ -39,9 +42,9 @@ namespace LibraryManagementSystem.Services
             return true;
         }
         //working
-        public IQueryable<MemberDTO> GetAll()
+        public IQueryable<Member> GetAll()
         {
-            return _context.Members.Select(a => new MemberDTO
+            return _context.Members.Select(a => new Member
             {
                 Id = a.Id,
                 FirstName = a.FirstName,
@@ -52,11 +55,11 @@ namespace LibraryManagementSystem.Services
         }
      
         //working
-        public async Task<MemberDTO> GetByIdAsync(int id)
+        public async Task<Member> GetByIdAsync(int id)
         {
             var member =  await _context.Members.FindAsync(id);
             if (member == null) return null;
-            return new MemberDTO
+            return new Member
             {
                 Id = member.Id,
                 FirstName = member.FirstName,
@@ -66,18 +69,17 @@ namespace LibraryManagementSystem.Services
             };
         }
         //working
-        public async Task<MemberDTO> UpdateAsync(MemberDTO memberDTO)
+        public async Task<Member> UpdateAsync(Member entity)
         {
-            var member = await _context.Members.FindAsync(memberDTO.Id);
-            if (member == null) return null;
-            member.Id = memberDTO.Id;
-            member.FirstName = memberDTO.FirstName;
-            member.LastName = memberDTO.LastName;
-            member.Email = memberDTO.Email;
-            member.PhoneNumber = memberDTO.PhoneNumber;
-            _context.Members.Update(member);
+            var existingMember = await _context.Members.FindAsync(entity.Id);
+            if (existingMember == null) return null;
+            existingMember.Id = entity.Id;
+            existingMember.FirstName = entity.FirstName;
+            existingMember.Email = entity.Email;
+            existingMember.PhoneNumber = entity.PhoneNumber;
+            _context.Members.Update(existingMember);
             await _context.SaveChangesAsync();
-            return memberDTO;
+            return existingMember;
         }
     }
 }

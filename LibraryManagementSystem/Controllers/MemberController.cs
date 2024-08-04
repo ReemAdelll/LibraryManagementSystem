@@ -89,7 +89,7 @@ namespace LibraryManagementSystem.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateMember(int id, [FromBody] MemberDTO memberDto)
+        public async Task<IActionResult> UpdateMember(int id, [FromBody] MemberEditDTO memberEditDTO)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -97,22 +97,28 @@ namespace LibraryManagementSystem.Controllers
             var existingMember = await _unitOfWork.Members.GetByIdAsync(id);
             if (existingMember == null) return NotFound();
 
-            memberDto.Id = id;
-            await _unitOfWork.Members.UpdateAsync(memberDto);
+            //implicit conversion
+            Member member = memberEditDTO;
+
+            member.Id = id;
+            await _unitOfWork.Members.UpdateAsync(member);
             await _unitOfWork.CompleteAsync();
             return NoContent();
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateMember([FromBody] MemberDTO memberDto)
+        public async Task<IActionResult> CreateMember([FromBody] MemberCreateDTO memberCreateDTO)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var member = await _unitOfWork.Members.AddAsync(memberDto);
+            // implicit conversion
+            Member member = memberCreateDTO;
+
+            var memberAdded = await _unitOfWork.Members.AddAsync(member);
             await _unitOfWork.CompleteAsync();
 
-            return CreatedAtAction(nameof(GetMemberById), new { id = member.Id }, member);
+            return CreatedAtAction(nameof(GetMemberById), new { id = memberAdded.Id }, (MemberDTO)memberAdded);
         }
 
         [HttpDelete("{id}")]
