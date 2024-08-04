@@ -9,16 +9,7 @@ namespace LibraryManagementSystem
     {
         public static void Main(string[] args)
         {
-            
-
-            //Log.Logger = new LoggerConfiguration()
-            //    .MinimumLevel.Debug()
-            //    .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-            //    .Enrich.FromLogContext()
-            //    .WriteTo.Console()
-                //.WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day)
-                //.CreateLogger();
-
+           
             try
             {
                 Log.Information("Starting up");

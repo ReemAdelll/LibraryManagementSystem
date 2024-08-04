@@ -27,15 +27,16 @@ namespace LibraryManagementSystem.Services
 				{
 					Id = a.Id,
 					Name = a.Name,
-					Country = a.Country
-					
-				});
+					Country = a.Country,
+                    CreationTime = a.CreationTime,
+                    LastUpdateTime = a.LastUpdateTime,
+                });
 		}
 		public async Task<Author> GetByIdAsync(int id)
 		{
 			var author = await _context.Authors.FindAsync(id);
 			if (author == null) return null;
-			return new Author { Id = author.Id, Name = author.Name };
+			return new Author { Id = author.Id, Name = author.Name, CreationTime = author.CreationTime, LastUpdateTime= author.LastUpdateTime };
 		}
       
         //special method for author, not from base
@@ -71,46 +72,6 @@ namespace LibraryManagementSystem.Services
                 }).ToList()
             });
         }
-
-
-
-		//public async Task<Author> AddAsync(AuthorCreateDTO authorCreateDTO)
-		//{
-  //          //var author = new Author { Name = AuthorCreateDTO.Name, Country = AuthorCreateDTO.Country, Bio = AuthorCreateDTO.Bio };
-  //          //_context.Authors.Add(author);
-  //          //await _context.SaveChangesAsync();
-  //          //AuthorCreateDTO.Id = author.Id;
-  //          //return author;
-
-  //          Author author = authorCreateDTO; // Implicit conversion
-  //          _context.Authors.Add(author);
-  //          await _context.SaveChangesAsync();
-  //          authorCreateDTO.Id = author.Id;
-  //          return author;
-  //      }
-
-        //public async Task<Author> UpdateAsync(AuthorEditDTO AuthorEditDto)
-        //{
-        //    //var author = await _context.Authors.FindAsync(authorDto.Id);
-        //    //if (author == null) return null;
-        //    //author.Name = authorDto.Name;
-        //    //author.Country = authorDto.Country;
-        //    //_context.Authors.Update(author);
-        //    //await _context.SaveChangesAsync();
-        //    //return authorDto;
-        //    var author = (Author)AuthorEditDto; //implicit conversion
-        //    var existingAuthor = await _context.Authors.FindAsync(author.Id);
-        //    if (existingAuthor == null) return null;
-
-        //    // Update existing author fields
-        //    existingAuthor.Name = author.Name;
-        //    existingAuthor.Country = author.Country;
-
-        //    _context.Authors.Update(existingAuthor);
-        //    await _context.SaveChangesAsync();
-
-        //    return existingAuthor;
-        //}
 
 		public async Task<bool> DeleteAsync(int id)
 		{

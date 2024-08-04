@@ -13,5 +13,7 @@ namespace LibraryManagementSystem.Shared
         public string LastName { get; set; }
         public string Email { get; set; }
         public int PhoneNumber { get; set; }
+        public DateTime CreationTime { get; set; }
+        public DateTime LastUpdateTime { get; set; }
     }
 }

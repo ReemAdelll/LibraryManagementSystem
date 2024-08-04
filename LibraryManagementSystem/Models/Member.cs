@@ -20,6 +20,8 @@ namespace LibraryManagementSystem.Models
                 LastName = member.LastName,
                 Email = member.Email,
                 PhoneNumber = member.PhoneNumber,
+                CreationTime = member.CreationTime,
+                LastUpdateTime = member.LastUpdateTime,
             };
         }
         public static implicit operator MemberCreateDTO(Member member)

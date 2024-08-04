@@ -19,6 +19,8 @@ namespace LibraryManagementSystem.Models
                 Name = author.Name,
                 Bio = author.Bio,
                 Country = author.Country,
+                CreationTime = author.CreationTime,
+                LastUpdateTime = author.LastUpdateTime,
             };
         }
 

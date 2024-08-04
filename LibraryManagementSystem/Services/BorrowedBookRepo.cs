@@ -16,18 +16,6 @@ namespace LibraryManagementSystem.Services
         }
         public async Task<BorrowedBook> AddAsync(BorrowedBook entity)
         {
-            //var borrowedBook = new BorrowedBook
-            //{
-            //    BookId = borrowedBookDTO.BookId,
-            //    MemberId = borrowedBookDTO.MemberId,
-            //    Id = borrowedBookDTO.Id,
-            //    BorrowDate = borrowedBookDTO.BorrowDate,
-            //    ReturnDate = borrowedBookDTO.ReturnDate
-            //};
-            //_context.BorrowedBooks.Add(borrowedBook);
-            //await _context.SaveChangesAsync();
-            //borrowedBookDTO.Id = borrowedBook.Id;
-            //return borrowedBookDTO;
             _context.BorrowedBooks.Add(entity);
             await _context.SaveChangesAsync();
             return entity;
@@ -45,7 +33,7 @@ namespace LibraryManagementSystem.Services
         public IQueryable<BorrowedBook> GetAll()
         {
             return _context.BorrowedBooks.Select(a=> new BorrowedBook { BookId = a.BookId,MemberId = a.MemberId
-            , Id = a.Id, BorrowDate= a.BorrowDate, ReturnDate= a.ReturnDate});
+            , Id = a.Id, BorrowDate= a.BorrowDate, ReturnDate= a.ReturnDate, CreationTime = a.CreationTime, LastUpdateTime = a.LastUpdateTime});
 
         }
 
@@ -101,22 +89,14 @@ namespace LibraryManagementSystem.Services
                 MemberId = BorrowedBook.MemberId,
                 Id = BorrowedBook.Id,
                 BorrowDate = BorrowedBook.BorrowDate,
-                ReturnDate = BorrowedBook.ReturnDate
+                ReturnDate = BorrowedBook.ReturnDate,
+                CreationTime = BorrowedBook.CreationTime,
+                LastUpdateTime = BorrowedBook.LastUpdateTime,
             };
         }
 
         public async Task<BorrowedBook> UpdateAsync(BorrowedBook  entity)
         {
-            //var BorrowedBook = await _context.BorrowedBooks.FindAsync(borrowedBookDTO.Id);
-            //if (BorrowedBook == null) return null;
-            //BorrowedBook.BookId = borrowedBookDTO.BookId;
-            //BorrowedBook.MemberId = borrowedBookDTO.MemberId;
-            //BorrowedBook.Id = borrowedBookDTO.Id;
-            //BorrowedBook.BorrowDate = borrowedBookDTO.BorrowDate;
-            //BorrowedBook.ReturnDate = borrowedBookDTO.ReturnDate;
-            //_context.BorrowedBooks.Update(BorrowedBook);
-            //await _context.SaveChangesAsync();
-            //return borrowedBookDTO;
             var existingBorrowedBook = await _context.BorrowedBooks.FindAsync(entity.Id);
             if (existingBorrowedBook == null) return null;
             existingBorrowedBook.BookId = entity.BookId;

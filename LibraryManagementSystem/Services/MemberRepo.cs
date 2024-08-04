@@ -16,18 +16,6 @@ namespace LibraryManagementSystem.Services
         //working
         public async Task<Member> AddAsync(Member entity)
         {
-            //var member = new Member
-            //{
-            //    Id = memberDTO.Id,
-            //    FirstName = memberDTO.FirstName,
-            //    LastName = memberDTO.LastName,
-            //    Email = memberDTO.Email,
-            //    PhoneNumber = memberDTO.PhoneNumber
-            //};
-            //_context.Members.Add(member);
-            //await _context.SaveChangesAsync();
-            //memberDTO.Id = member.Id;
-            //return memberDTO;
             _context.Members.Add(entity);
             await _context.SaveChangesAsync();
             return entity;
@@ -50,7 +38,9 @@ namespace LibraryManagementSystem.Services
                 FirstName = a.FirstName,
                 LastName = a.LastName,
                 Email = a.Email,
-                PhoneNumber = a.PhoneNumber
+                PhoneNumber = a.PhoneNumber,
+                CreationTime = a.CreationTime,
+                LastUpdateTime = a.LastUpdateTime,
             });
         }
      
@@ -65,7 +55,9 @@ namespace LibraryManagementSystem.Services
                 FirstName = member.FirstName,
                 LastName = member.LastName,
                 Email = member.Email,
-                PhoneNumber = member.PhoneNumber
+                PhoneNumber = member.PhoneNumber,
+                CreationTime = member.CreationTime,
+                LastUpdateTime = member.LastUpdateTime,
             };
         }
         //working

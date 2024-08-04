@@ -7,5 +7,7 @@ namespace LibraryManagementSystem.Shared
         public string Name { get; set; }
         public string Country { get; set; }
         public string Bio { get; set; }
+        public DateTime CreationTime { get; set; }
+        public DateTime LastUpdateTime { get; set; }
     }
 }

@@ -17,7 +17,9 @@ namespace LibraryManagementSystem.Models
 			Title = book.Title,
 			PublishedYear = book.PublishedYear,
 			AuthorId = book.AuthorId,
-			};
+            CreationTime = book.CreationTime,
+		    LastUpdateTime = book.LastUpdateTime,
+            };
 		}
 		public static implicit operator Book(BookCreateDTO bookCreateDTO)
 		{

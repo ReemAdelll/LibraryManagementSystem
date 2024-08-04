@@ -109,29 +109,8 @@ namespace LibraryManagementSystem.Controllers
 			if (author == null) return NotFound();
 			return Ok(author);
 		}
+
         //working
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> UpdateAuthor(int id, [FromBody] AuthorEditDTO authorEditDto)
-        //{
-        //	if (!ModelState.IsValid)
-        //		return BadRequest(ModelState);
-
-        //          //var existingAuthor = await _unitOfWork.Authors.GetByIdAsync(id);
-        //          //if (existingAuthor == null) return NotFound();
-
-        //          //AuthorDto.Id = id;
-        //          //await _unitOfWork.Authors.UpdateAsync(AuthorDto);
-        //          //await _unitOfWork.CompleteAsync();
-
-        //          //return NoContent();
-        //          var existingAuthor = await _unitOfWork.Authors.GetByIdAsync(id);
-        //          if (existingAuthor == null) return NotFound();
-        //          authorEditDto.Id = id;
-        //          var updatedAuthor = await _unitOfWork.Authors.UpdateAsync(authorEditDto);
-        //          await _unitOfWork.CompleteAsync();
-        //          return NoContent();
-        //      }
-
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAuthor(int id, [FromBody] AuthorEditDTO authorEditDto)
         {
@@ -147,17 +126,6 @@ namespace LibraryManagementSystem.Controllers
             return NoContent();
         }
 
-        //working
-        //[HttpPost]
-        //public async Task<IActionResult> CreateAuthor([FromBody] AuthorCreateDTO authorCreateDto)
-        //{
-        //	if (!ModelState.IsValid)
-        //		return BadRequest(ModelState);
-
-        //	var author = await _unitOfWork.Authors.AddAsync(authorCreateDto);
-        //	await _unitOfWork.CompleteAsync();
-        //	return CreatedAtAction(nameof(GetAuthorById), new { id = author.Id }, (AuthorCreateDTO)author);
-        //}
         [HttpPost]
         public async Task<IActionResult> CreateAuthor([FromBody] AuthorCreateDTO authorCreateDto)
         {

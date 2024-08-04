@@ -22,6 +22,8 @@ namespace LibraryManagementSystem.Models
             MemberId = borrowedBook.MemberId,
             BorrowDate = borrowedBook.BorrowDate,
             ReturnDate = borrowedBook.ReturnDate,
+            CreationTime = borrowedBook.CreationTime,
+            LastUpdateTime = borrowedBook.LastUpdateTime,
             };
          }
         public static implicit operator BorrowedBook(BorrowedBookCreateDTO borrowedBookCreateDTO)

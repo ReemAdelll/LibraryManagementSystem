@@ -12,6 +12,8 @@ namespace LibraryManagementSystem.Models
             {
                 Id = genre.Id,
                 GenreName = genre.GenreName,
+                CreationTime = genre.CreationTime,
+                LastUpdateTime = genre.LastUpdateTime,
             };
         }
 
