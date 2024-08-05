@@ -13,6 +13,8 @@ namespace LibraryManagementSystem.Models
         public Book Book { get; set; }
         public Member Member { get; set; }
 
+        public ICollection<BookDTO>? Books { get; set; }
+
         public static implicit operator BorrowedBookDTO(BorrowedBook borrowedBook)
          {
             return new BorrowedBookDTO
@@ -26,6 +28,20 @@ namespace LibraryManagementSystem.Models
             LastUpdateTime = borrowedBook.LastUpdateTime,
             };
          }
+        public static implicit operator BorrowedBookBooksDTO(BorrowedBook borrowedBook)
+        {
+            return new BorrowedBookBooksDTO
+            {
+                Id = borrowedBook.Id,
+                BookId = borrowedBook.BookId,
+                MemberId = borrowedBook.MemberId,
+                BorrowDate = borrowedBook.BorrowDate,
+                ReturnDate = borrowedBook.ReturnDate,
+                CreationTime = borrowedBook.CreationTime,
+                LastUpdateTime = borrowedBook.LastUpdateTime,
+                Books = borrowedBook.Books?.Select(book => (BookDTO)book).ToList()
+            };
+        }
         public static implicit operator BorrowedBook(BorrowedBookCreateDTO borrowedBookCreateDTO)
         {
             return new BorrowedBook

@@ -25,8 +25,10 @@ namespace LibraryManagementSystem.Controllers
         [HttpGet("Get With Filter")]
         public async Task<IActionResult> GetAllWithFilter([FromQuery] DateTime? startDate = null, [FromQuery] DateTime? endDate = null, [FromQuery] string? sortOrder = null, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
-            var borrowedBooks = await _unitOfWork.borrowedBooks.GetAllWithFilter(startDate, endDate, sortOrder,page,pageSize);
-            return Ok(borrowedBooks);
+            var borrowedBooks1 = await _unitOfWork.borrowedBooks.GetAllWithFilter(startDate, endDate, sortOrder,page,pageSize);
+            //implicit operator
+            var borrowedBooks = borrowedBooks1.Select(BorrowedBook => (BorrowedBookBooksDTO)BorrowedBook);
+            return Ok(borrowedBooks); 
         }
 
         [HttpGet("{id}")]

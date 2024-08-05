@@ -21,7 +21,8 @@ namespace LibraryManagementSystem.Models
 		    LastUpdateTime = book.LastUpdateTime,
             };
 		}
-		public static implicit operator Book(BookCreateDTO bookCreateDTO)
+        
+        public static implicit operator Book(BookCreateDTO bookCreateDTO)
 		{
 			return new Book
 			{

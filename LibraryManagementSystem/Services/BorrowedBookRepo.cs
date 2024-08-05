@@ -38,7 +38,7 @@ namespace LibraryManagementSystem.Services
         }
 
         //get with filter
-        public async Task<IEnumerable<BorrowedBookBooksDTO>> GetAllWithFilter(DateTime? startDate = null, DateTime? endDate = null, string? sortOrder = null, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+        public async Task<IEnumerable<BorrowedBook>> GetAllWithFilter(DateTime? startDate = null, DateTime? endDate = null, string? sortOrder = null, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
             var query = _context.BorrowedBooks.Include(bb => bb.Book).AsQueryable();
 
@@ -57,27 +57,28 @@ namespace LibraryManagementSystem.Services
                 query = sortOrder.ToLower() == "desc" ? query.OrderByDescending(bb => bb.BorrowDate) : query.OrderBy(bb => bb.BorrowDate);
             }
 
-            var borrowedBooks = await query
-                .Select(bb => new BorrowedBookBooksDTO
-                {
-                    Id = bb.Id,
-                    BorrowDate = bb.BorrowDate,
-                    ReturnDate = bb.ReturnDate,
-                    Books = new List<BookDTO>
-                    {
-                new BookDTO
-                {
-                    //Id = bb.Book.Id,
-                    Title = bb.Book.Title,
-                    PublishedYear = bb.Book.PublishedYear
-                }
-                    }
-                })
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
+            //var borrowedBooks = await query
+            //    .Select(bb => new BorrowedBookBooksDTO
+            //    {
+            //        Id = bb.Id,
+            //        BorrowDate = bb.BorrowDate,
+            //        ReturnDate = bb.ReturnDate,
+            //        Books = new List<BookDTO>
+            //        {
+            //    new BookDTO
+            //    {
+            //        //Id = bb.Book.Id,
+            //        Title = bb.Book.Title,
+            //        PublishedYear = bb.Book.PublishedYear
+            //    }
+            //        }
+            //    })
+            //    .Skip((page - 1) * pageSize)
+            //    .Take(pageSize)
+            //    .ToListAsync();
 
-            return borrowedBooks;
+            //return borrowedBooks;
+            return await query.ToListAsync();
         }
 
         public async Task<BorrowedBook> GetByIdAsync(int id)
